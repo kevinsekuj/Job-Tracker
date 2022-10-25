@@ -1,6 +1,10 @@
-const NavbarItem = ({ children, ...rest }) => {
+const DEFAULT_NAVBAR_ITEM_STYLE = {
+  padding: "10px 5px",
+};
+
+const NavbarItem = ({ children, s, ...rest }) => {
   return (
-    <div style={{ display: "flex", padding: "0 3px" }} {...rest}>
+    <div style={{ ...DEFAULT_NAVBAR_ITEM_STYLE, ...s }} {...rest}>
       {children}
     </div>
   );

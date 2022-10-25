@@ -29,7 +29,6 @@ const JobTable = () => {
 
   const handleFormDataChange = useMemo(() =>
     debounce(e => {
-      console.log(e.target.value);
       const { name, value } = e.target;
       const data = { ...formData };
       data[name] = value;

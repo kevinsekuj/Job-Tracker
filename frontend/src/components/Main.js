@@ -1,18 +1,26 @@
-import JobTable from "./JobTable";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { useState } from "react";
 import { Navbar, NavbarItem } from "../common/components";
-
 import { NAVBAR_ITEM_TITLES } from "../common/constants";
 import { makeNavbarItems } from "../common/utils";
+import AddJobForm from "./AddJobForm";
+import JobsGrid from "./JobsGrid";
 
+/**
+ * Primary component in the React tree.
+ */
 const Main = () => {
+  const [rows, setRows] = useState([]);
+
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <Navbar
         s={{
-          margin: "1.5% 1% 1% 1%",
+          margin: "0.5% 1% 0.5% 1%",
         }}
       >
-        {makeNavbarItems(NAVBAR_ITEM_TITLES).map(item => (
+        {makeNavbarItems(NAVBAR_ITEM_TITLES).map((item) => (
           <NavbarItem key={item.title}>
             <button style={{ height: "100%" }} onClick={item.handleButtonClick}>
               {item.title}
@@ -29,8 +37,13 @@ const Main = () => {
         </NavbarItem>
       </Navbar>
 
-      <h1 style={{ textAlign: "center" }}>Track Jobs</h1>
-      <JobTable />
+      <Box sx={{ backgroundColor: "white", padding: "0 4em" }}>
+        <Typography variant="h1" align="center" my={2}>
+          Track Jerbs
+        </Typography>
+        <AddJobForm rows={rows} setRows={setRows} />
+        <JobsGrid rows={rows} />
+      </Box>
     </div>
   );
 };

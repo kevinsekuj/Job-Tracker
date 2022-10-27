@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import { Navbar, NavbarItem } from "../common/components";
-import { NAVBAR_ITEM_TITLES } from "../common/constants";
+import { DUMMY_TABLE_DATA, NAVBAR_ITEM_TITLES } from "../common/constants";
 import { makeNavbarItems } from "../common/utils";
 import AddJobForm from "./AddJobForm";
 import JobsGrid from "./JobsGrid";
@@ -11,7 +11,7 @@ import JobsGrid from "./JobsGrid";
  * Primary component in the React tree.
  */
 const Main = () => {
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = useState(DUMMY_TABLE_DATA);
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>

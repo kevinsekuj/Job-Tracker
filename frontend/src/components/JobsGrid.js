@@ -9,6 +9,8 @@ import { APPLICATION_FIELDS } from "../common/constants";
  *
  */
 export default function JobsGrid(props) {
+  const [selectedRows, setSelectedRows] = React.useState([]);
+
   const columns = [
     // Can add this if we want to view id's as well
     // { field: "id", headerName: APPLICATION_FIELDS.id, width: 90 },
@@ -45,13 +47,21 @@ export default function JobsGrid(props) {
   ];
 
   return (
-    <Box sx={{ height: "100%" }}>
+    <Box sx={{ height: 500 }}>
       <DataGrid
         rows={props.rows}
         columns={columns}
         pageSize={25}
         checkboxSelection
+        onSelectionModelChange={(ids) => {
+          const selectedIDs = new Set(ids);
+          const selectedRows = props.rows.filter((row) =>
+            selectedIDs.has(row.id)
+          );
+          setSelectedRows(selectedRows);
+        }}
       />
+      <pre>{JSON.stringify(selectedRows, null, 2)}</pre>
     </Box>
   );
 }

@@ -1,6 +1,8 @@
 import * as React from "react";
 
 import Box from "@mui/material/Box";
+
+import Chip from "@mui/material/Chip";
 import { DataGrid } from "@mui/x-data-grid";
 
 import { APPLICATION_FIELDS } from "../common/constants";
@@ -38,6 +40,17 @@ export default function JobsGrid(props) {
       field: "skills",
       headerName: APPLICATION_FIELDS.skills,
       width: styles.CELL_LG,
+      renderCell: cellValues => {
+        console.log(cellValues.row.skills);
+        const skills = cellValues.row.skills.split(",");
+        return (
+          <>
+            {skills.map(skill => (
+              <Chip sx={{ mr: "0.5em" }} label={skill} />
+            ))}
+          </>
+        );
+      },
     },
     {
       field: "contacts",
@@ -53,9 +66,9 @@ export default function JobsGrid(props) {
         columns={columns}
         pageSize={25}
         checkboxSelection
-        onSelectionModelChange={(ids) => {
+        onSelectionModelChange={ids => {
           const selectedIDs = new Set(ids);
-          const selectedRows = props.rows.filter((row) =>
+          const selectedRows = props.rows.filter(row =>
             selectedIDs.has(row.id)
           );
           setSelectedRows(selectedRows);

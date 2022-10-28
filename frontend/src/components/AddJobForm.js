@@ -78,10 +78,8 @@ export default function AddJobForm(props) {
                   <DesktopDatePicker
                     label="Date Applied"
                     value={values.date}
-                    onChange={(value) => setFieldValue("date", value, true)}
-                    renderInput={(params) => (
-                      <TextField {...params} fullWidth />
-                    )}
+                    onChange={value => setFieldValue("date", value, true)}
+                    renderInput={params => <TextField {...params} fullWidth />}
                   />
                 </LocalizationProvider>
               </Grid>

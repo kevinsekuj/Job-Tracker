@@ -20,7 +20,7 @@ const Main = () => {
           margin: "0.5% 1% 0.5% 1%",
         }}
       >
-        {makeNavbarItems(NAVBAR_ITEM_TITLES).map((item) => (
+        {makeNavbarItems(NAVBAR_ITEM_TITLES).map(item => (
           <NavbarItem key={item.title}>
             <button style={{ height: "100%" }} onClick={item.handleButtonClick}>
               {item.title}

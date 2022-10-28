@@ -21,14 +21,14 @@ const JobTable = () => {
     setTableData(DUMMY_TABLE_DATA);
   }, []);
 
-  const handleAddRow = (e) => {
+  const handleAddRow = e => {
     const newRow = { id: Math.floor(Math.random() * Math.max()), ...formData };
     setTableData(tableData.concat(newRow));
     e.preventDefault();
   };
 
   const handleFormDataChange = useMemo(() =>
-    debounce((e) => {
+    debounce(e => {
       const { name, value } = e.target;
       const data = { ...formData };
       data[name] = value;
@@ -37,17 +37,17 @@ const JobTable = () => {
     }, DELAY)
   );
 
-  const handleDeleteRow = (e) => {
+  const handleDeleteRow = e => {
     setTableData(
       tableData.filter(
-        (row) => row.id?.toString() !== e.target.getAttribute("id")
+        row => row.id?.toString() !== e.target.getAttribute("id")
       )
     );
   };
 
   const handleSortColumn =
     (reverse = false) =>
-    (e) => {
+    e => {
       const column = e.target.getAttribute("column").toLowerCase();
 
       const comparator = (a, b) => {
@@ -74,7 +74,7 @@ const JobTable = () => {
       >
         <tbody>
           <tr>
-            {TABLE_HEADER_NAMES.map((name) => (
+            {TABLE_HEADER_NAMES.map(name => (
               <th style={{ textAlign: "left" }}>
                 {name}
                 <button column={name} onClick={handleSortColumn()}>
@@ -87,12 +87,12 @@ const JobTable = () => {
             ))}
           </tr>
           {tableData &&
-            tableData.map((row) => {
+            tableData.map(row => {
               return (
                 <tr rowid={row.id}>
                   {Object.keys(row)
                     .slice(1)
-                    .map((key) => (
+                    .map(key => (
                       <td>{row[key]}</td>
                     ))}
                   <td>

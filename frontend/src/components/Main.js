@@ -1,17 +1,27 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navbar, NavbarItem } from "../common/components";
-import { DUMMY_TABLE_DATA, NAVBAR_ITEM_TITLES } from "../common/constants";
+import { NAVBAR_ITEM_TITLES } from "../common/constants";
 import { makeNavbarItems } from "../common/utils";
 import AddJobForm from "./AddJobForm";
 import JobsGrid from "./JobsGrid";
+
+import { getRowData } from "../common/service";
 
 /**
  * Primary component in the React tree.
  */
 const Main = () => {
-  const [rows, setRows] = useState(DUMMY_TABLE_DATA);
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const { data } = await getRowData();
+      setRows(data);
+    }
+    fetchData();
+  }, []);
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>

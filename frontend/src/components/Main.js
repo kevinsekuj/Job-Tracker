@@ -52,7 +52,7 @@ const Main = () => {
           Track Jerbs
         </Typography>
         <AddJobForm rows={rows} setRows={setRows} />
-        <JobsGrid rows={rows} />
+        <JobsGrid rows={rows} setRows={setRows} />
       </Box>
     </div>
   );

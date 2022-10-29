@@ -10,10 +10,12 @@ import { Field, Form, Formik } from "formik";
 import React from "react";
 
 /**
- * Adds a new job application.
+ * Edits an existing job application.
  * This will move to its own page eventually. Probably.
+ *
+ * can update single row??
  */
-export default function AddJobForm({ rows, setRows }) {
+export default function EditJobForm({ handleUpdateRow, selectedRow }) {
   return (
     <Box
       sx={{
@@ -25,24 +27,25 @@ export default function AddJobForm({ rows, setRows }) {
     >
       <Formik
         initialValues={{
-          company: "",
-          position: "",
-          date: dayjs(), // Same as date.now().
-          skills: "",
-          contacts: "",
+          company: selectedRow?.company ?? "",
+          position: selectedRow?.position ?? "",
+          date: selectedRow?.date ?? dayjs(), // Same as date.now().
+          skills: selectedRow?.skills ?? "",
+          contacts: selectedRow?.contacts ?? "",
         }}
         onSubmit={(formData, { setSubmitting, resetForm }) => {
           setSubmitting(true);
 
           const newRow = {
-            id: Math.random(),
+            id: selectedRow.id,
             ...formData,
           };
 
           // TODO: send async request w payload here
+          // if err, do not update
 
-          // On successful response use the id from DB, not random
-          setRows([newRow, ...rows]);
+          // On successful response
+          handleUpdateRow(newRow);
 
           setSubmitting(false);
           resetForm();
@@ -51,7 +54,7 @@ export default function AddJobForm({ rows, setRows }) {
         {({ values, isSubmitting, setFieldValue }) => (
           <Form>
             <Typography variant="h4" my={2}>
-              Add New Jerb
+              Edit Jerb
             </Typography>
             <Grid container direction={"column"} spacing={2}>
               <Grid item>

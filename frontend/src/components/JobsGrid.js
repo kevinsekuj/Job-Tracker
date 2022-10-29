@@ -118,7 +118,9 @@ export default function JobsGrid({ rows, setRows }) {
       >
         Edit
       </Button>
-      <Button onClick={handleDeleteRows}>Delete</Button>
+      <Button onClick={handleDeleteRows} disabled={selectedRows.length === 0}>
+        Delete
+      </Button>
       <Drawer
         anchor="right"
         open={drawerState}

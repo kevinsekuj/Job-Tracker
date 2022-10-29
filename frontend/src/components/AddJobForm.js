@@ -10,10 +10,10 @@ import { Field, Form, Formik } from "formik";
 import React from "react";
 
 /**
- * Adds a new application.
- * This will move to it's own page eventually.
+ * Adds a new job application.
+ * This will move to its own page eventually. Probably.
  */
-export default function AddJobForm(props) {
+export default function AddJobForm({ rows, setRows }) {
   return (
     <Box
       sx={{
@@ -34,14 +34,15 @@ export default function AddJobForm(props) {
         onSubmit={(formData, { setSubmitting, resetForm }) => {
           setSubmitting(true);
 
-          // TODO: send async request w payload here, just logging for now.
           const newRow = {
             id: Math.random(),
             ...formData,
           };
-          console.log(newRow);
-          // TODO: instead of a random key, obviously use the id from DB.
-          props.setRows([newRow, ...props.rows]);
+
+          // TODO: send async request w payload here
+
+          // On successful response use the id from DB, not random
+          setRows([newRow, ...rows]);
 
           setSubmitting(false);
           resetForm();

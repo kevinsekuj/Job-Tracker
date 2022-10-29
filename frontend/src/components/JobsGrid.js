@@ -1,17 +1,66 @@
-import * as React from "react";
-
 import Box from "@mui/material/Box";
-
+import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
+import * as React from "react";
+import { useState } from "react";
+
 import { DataGrid } from "@mui/x-data-grid";
 
+import { Drawer } from "@mui/material";
 import { APPLICATION_FIELDS } from "../common/constants";
+import EditJobForm from "./EditJobForm";
 
 /**
  *
  */
-export default function JobsGrid(props) {
-  const [selectedRows, setSelectedRows] = React.useState([]);
+export default function JobsGrid({ rows, setRows }) {
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [drawerState, setDrawerState] = useState(false);
+
+  const toggleDrawerIsOpen = open => event => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    setDrawerState(open);
+  };
+
+  const handleUpdateRow = newRow => {
+    // TODO: send async update payload to server
+    // if err, return no changes
+
+    // On successful response
+    const rowsWithEdit = rows.map(row => {
+      if (row.id === newRow.id) {
+        return newRow;
+      }
+      return row;
+    });
+    const selectedRowsWithEdit = selectedRows.map(row => {
+      if (row.id === newRow.id) {
+        return newRow;
+      }
+      return row;
+    });
+
+    setRows(rowsWithEdit);
+    setSelectedRows(selectedRowsWithEdit);
+    setDrawerState(false);
+  };
+
+  const handleDeleteRows = () => {
+    // TODO: send async delete payload to server
+    // if err, return no changes
+
+    // On successful response
+    const selectedIds = selectedRows.map(row => row.id);
+    const rowsWithoutDeletes = rows.filter(
+      row => !selectedIds.includes(row.id)
+    );
+    setRows(rowsWithoutDeletes);
+  };
 
   const columns = [
     // Can add this if we want to view id's as well
@@ -41,13 +90,15 @@ export default function JobsGrid(props) {
       headerName: APPLICATION_FIELDS.skills,
       width: styles.CELL_LG,
       renderCell: cellValues => {
-        console.log(cellValues.row.skills);
-        const skills = cellValues.row.skills.split(",");
+        const skillsArray = cellValues.row.skills.split(",");
+        if (skillsArray.length === 1 && skillsArray[0] === "") {
+          return null;
+        }
         return (
           <>
-            {skills.map(skill => (
-              <Chip sx={{ mr: "0.5em" }} label={skill} />
-            ))}
+            {skillsArray.map(skill => {
+              return <Chip key={skill} sx={{ mr: "0.5em" }} label={skill} />;
+            })}
           </>
         );
       },
@@ -61,16 +112,33 @@ export default function JobsGrid(props) {
 
   return (
     <Box sx={{ height: 500 }}>
+      <Button
+        onClick={toggleDrawerIsOpen(true)}
+        disabled={selectedRows.length !== 1}
+      >
+        Edit
+      </Button>
+      <Button onClick={handleDeleteRows}>Delete</Button>
+      <Drawer
+        anchor="right"
+        open={drawerState}
+        onClose={toggleDrawerIsOpen(false)}
+      >
+        {selectedRows.length === 1 && (
+          <EditJobForm
+            handleUpdateRow={handleUpdateRow}
+            selectedRow={selectedRows[0]}
+          />
+        )}
+      </Drawer>
       <DataGrid
-        rows={props.rows}
+        rows={rows}
         columns={columns}
         pageSize={25}
         checkboxSelection
         onSelectionModelChange={ids => {
           const selectedIDs = new Set(ids);
-          const selectedRows = props.rows.filter(row =>
-            selectedIDs.has(row.id)
-          );
+          const selectedRows = rows.filter(row => selectedIDs.has(row.id));
           setSelectedRows(selectedRows);
         }}
       />

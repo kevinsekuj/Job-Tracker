@@ -34,7 +34,6 @@ const JobsTable = ({ rows, setRows }) => {
   const handleCreateRow = newRow => {
     // TODO: send async update payload to server
     // if err, return no changes
-
     // On successful response
     setRows([newRow, ...rows]);
     setAddDrawerState(false);
@@ -43,7 +42,6 @@ const JobsTable = ({ rows, setRows }) => {
   const handleUpdateRow = newRow => {
     // TODO: send async update payload to server
     // if err, return no changes
-
     // On successful response
     const rowsWithEdit = rows.map(row => {
       if (row.id === newRow.id) {
@@ -94,7 +92,7 @@ const JobsTable = ({ rows, setRows }) => {
       width: JOB_TABLE_COLUMN_STYLES.CELL_SM,
     },
     {
-      field: "status",
+      field: "jobStatus",
       headerName: APPLICATION_FIELDS.status,
       width: JOB_TABLE_COLUMN_STYLES.CELL_SM,
     },
@@ -138,7 +136,9 @@ const JobsTable = ({ rows, setRows }) => {
           open={addDrawerState}
           onClose={toggleAddDrawerIsOpen(false)}
         >
-          <AddJobForm handleCreateRow={handleCreateRow} />
+          <FormBox>
+            <AddJobForm handleCreateRow={handleCreateRow} />
+          </FormBox>
         </Drawer>
         <Button
           variant="outlined"

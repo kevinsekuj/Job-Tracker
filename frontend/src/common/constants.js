@@ -3,7 +3,7 @@ export const APPLICATION_FIELDS = {
   company: "Company",
   position: "Position",
   date: "Date Applied",
-  status: "Status",
+  jobStatus: "Status",
   skills: "Skills",
   contacts: "Contacts",
 };
@@ -15,9 +15,9 @@ export const APPLICATION_STATUSES = {
   onsite: "Onsite Interview",
   behavioral: "Behavioral Interview",
   final: "Final Interview",
-  offer: "Offer",
-  accepted: "Accepted Offer",
-  bye: "Rejected Offer",
+  offer: "Offer (Pending)",
+  accepted: "Offer (Accepted)",
+  bye: "Offer (Rejected)",
   withdrawn: "Withdrawn",
   rip: "Rejected",
 };

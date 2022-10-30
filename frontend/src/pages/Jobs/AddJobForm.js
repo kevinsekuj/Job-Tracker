@@ -1,3 +1,4 @@
+import { APPLICATION_STATUSES } from "common/constants";
 import dayjs from "dayjs";
 import { Formik } from "formik";
 import JobForm from "pages/Jobs/JobForm";
@@ -8,12 +9,14 @@ import JobForm from "pages/Jobs/JobForm";
  */
 const AddJobForm = ({ handleCreateRow }) => {
   const heading = "Add New Job";
+  const formType = "add";
   return (
     <Formik
       initialValues={{
         company: "",
         position: "",
         date: dayjs(), // Same as date.now().
+        jobStatus: APPLICATION_STATUSES.applied,
         skills: "",
         contacts: "",
       }}
@@ -24,7 +27,6 @@ const AddJobForm = ({ handleCreateRow }) => {
         };
 
         // TODO: send async request w payload here
-
         // On successful response...
         handleCreateRow(newRow);
         setSubmitting(false);
@@ -33,6 +35,7 @@ const AddJobForm = ({ handleCreateRow }) => {
     >
       {({ values, isSubmitting, setFieldValue }) => (
         <JobForm
+          formType={formType}
           heading={heading}
           values={values}
           isSubmitting={isSubmitting}

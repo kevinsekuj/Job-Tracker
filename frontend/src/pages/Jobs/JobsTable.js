@@ -1,19 +1,19 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Chip from "@mui/material/Chip";
-import * as React from "react";
 import { useState } from "react";
 
+import { EditJobForm } from "./index";
+
+import { APPLICATION_FIELDS } from "../../common/constants";
+
+import { Box, Button, Chip, Drawer } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
-import { Drawer } from "@mui/material";
-import { APPLICATION_FIELDS } from "../common/constants";
-import EditJobForm from "./EditJobForm";
+const COLUMN_STYLES = {
+  CELL_SM: 200,
+  CELL_MD: 300,
+  CELL_LG: 400,
+};
 
-/**
- *
- */
-export default function JobsGrid({ rows, setRows }) {
+export default function JobsTable({ rows, setRows }) {
   const [selectedRows, setSelectedRows] = useState([]);
   const [drawerState, setDrawerState] = useState(false);
 
@@ -68,27 +68,27 @@ export default function JobsGrid({ rows, setRows }) {
     {
       field: "company",
       headerName: APPLICATION_FIELDS.company,
-      width: styles.CELL_SM,
+      width: COLUMN_STYLES.CELL_SM,
     },
     {
       field: "position",
       headerName: APPLICATION_FIELDS.position,
-      width: styles.CELL_MD,
+      width: COLUMN_STYLES.CELL_MD,
     },
     {
       field: "date",
       headerName: APPLICATION_FIELDS.date,
-      width: styles.CELL_SM,
+      width: COLUMN_STYLES.CELL_SM,
     },
     {
       field: "status",
       headerName: APPLICATION_FIELDS.status,
-      width: styles.CELL_SM,
+      width: COLUMN_STYLES.CELL_SM,
     },
     {
       field: "skills",
       headerName: APPLICATION_FIELDS.skills,
-      width: styles.CELL_LG,
+      width: COLUMN_STYLES.CELL_LG,
       renderCell: cellValues => {
         const skillsArray = cellValues.row.skills.split(",");
         if (skillsArray.length === 1 && skillsArray[0] === "") {
@@ -106,7 +106,7 @@ export default function JobsGrid({ rows, setRows }) {
     {
       field: "contacts",
       headerName: APPLICATION_FIELDS.contacts,
-      width: styles.CELL_LG,
+      width: COLUMN_STYLES.CELL_LG,
     },
   ];
 
@@ -148,9 +148,3 @@ export default function JobsGrid({ rows, setRows }) {
     </Box>
   );
 }
-
-const styles = {
-  CELL_SM: 200,
-  CELL_MD: 300,
-  CELL_LG: 400,
-};

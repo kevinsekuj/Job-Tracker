@@ -4,6 +4,7 @@ const Company = sequelize => {
   sequelize.define("Company", {
     email: {
       type: DataTypes.STRING,
+      unique: true,
       validate: {
         len: [1, 50],
       },

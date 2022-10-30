@@ -44,4 +44,4 @@ export async function del(req, res) {
   res.status(200).end();
 }
 
-export default { create, update, del };
+export default { getById, create, update, del };

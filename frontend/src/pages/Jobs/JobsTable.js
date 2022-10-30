@@ -128,7 +128,6 @@ const JobsTable = ({ rows, setRows }) => {
       <Box sx={{ display: "flex", flexDirection: "row", mb: 1 }}>
         <Button
           onClick={toggleAddDrawerIsOpen(true)}
-          color="secondary"
           variant="contained"
           disableElevation
         >

@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
-
 import MenuIcon from "@mui/icons-material/Menu";
 import WorkIcon from "@mui/icons-material/Work";
 import {
@@ -16,25 +13,11 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { NAVBAR_ITEMS, SETTINGS } from "common/constants.js";
+import { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
-const NAVBAR_ITEMS = [
-  {
-    item: "Jobs",
-    url: "/",
-  },
-  {
-    item: "Contacts",
-    url: "/contacts",
-  },
-  {
-    item: "Skills",
-    url: "/skills",
-  },
-];
-
-const SETTINGS = ["Logout"];
-
-export default function Navbar() {
+const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -93,7 +76,7 @@ export default function Navbar() {
               }}
             >
               {Object.keys(NAVBAR_ITEMS).map(page => (
-                <MenuItem key={page.item} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page.item}</Typography>
                 </MenuItem>
               ))}
@@ -116,11 +99,11 @@ export default function Navbar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            Job Tracker
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {NAVBAR_ITEMS.map(page => (
-              <RouterLink to={page.url}>
+              <RouterLink key={page.url} to={page.url}>
                 <Button
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "white", display: "block" }}
@@ -163,4 +146,6 @@ export default function Navbar() {
       </Container>
     </AppBar>
   );
-}
+};
+
+export default Navbar;

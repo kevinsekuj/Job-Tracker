@@ -1,10 +1,12 @@
-import { AddJobForm, JobsTable } from "./index";
+import { AddJobForm, FormBox, JobsTable } from "pages/Jobs/index";
 
-export default function JobsPage({ rows, setRows }) {
-  return (
-    <>
+const JobsPage = ({ rows, setRows }) => (
+  <>
+    <FormBox>
       <AddJobForm rows={rows} setRows={setRows} />
-      <JobsTable rows={rows} setRows={setRows} />
-    </>
-  );
-}
+    </FormBox>
+    <JobsTable rows={rows} setRows={setRows} />
+  </>
+);
+
+export default JobsPage;

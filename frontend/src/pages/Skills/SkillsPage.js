@@ -1,3 +1,3 @@
-export default function SkillsPage() {
-  return <>Skills</>;
-}
+const SkillsPage = () => <div>Skills</div>;
+
+export default SkillsPage;

@@ -1,19 +1,10 @@
-import { useState } from "react";
-
-import { EditJobForm } from "./index";
-
-import { APPLICATION_FIELDS } from "../../common/constants";
-
 import { Box, Button, Chip, Drawer } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { APPLICATION_FIELDS, JOB_TABLE_COLUMN_STYLES } from "common/constants";
+import { EditJobForm, FormBox } from "pages/Jobs/index";
+import { useState } from "react";
 
-const COLUMN_STYLES = {
-  CELL_SM: 200,
-  CELL_MD: 300,
-  CELL_LG: 400,
-};
-
-export default function JobsTable({ rows, setRows }) {
+const JobsTable = ({ rows, setRows }) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [drawerState, setDrawerState] = useState(false);
 
@@ -68,27 +59,27 @@ export default function JobsTable({ rows, setRows }) {
     {
       field: "company",
       headerName: APPLICATION_FIELDS.company,
-      width: COLUMN_STYLES.CELL_SM,
+      width: JOB_TABLE_COLUMN_STYLES.CELL_SM,
     },
     {
       field: "position",
       headerName: APPLICATION_FIELDS.position,
-      width: COLUMN_STYLES.CELL_MD,
+      width: JOB_TABLE_COLUMN_STYLES.CELL_MD,
     },
     {
       field: "date",
       headerName: APPLICATION_FIELDS.date,
-      width: COLUMN_STYLES.CELL_SM,
+      width: JOB_TABLE_COLUMN_STYLES.CELL_SM,
     },
     {
       field: "status",
       headerName: APPLICATION_FIELDS.status,
-      width: COLUMN_STYLES.CELL_SM,
+      width: JOB_TABLE_COLUMN_STYLES.CELL_SM,
     },
     {
       field: "skills",
       headerName: APPLICATION_FIELDS.skills,
-      width: COLUMN_STYLES.CELL_LG,
+      width: JOB_TABLE_COLUMN_STYLES.CELL_LG,
       renderCell: cellValues => {
         const skillsArray = cellValues.row.skills.split(",");
         if (skillsArray.length === 1 && skillsArray[0] === "") {
@@ -106,7 +97,7 @@ export default function JobsTable({ rows, setRows }) {
     {
       field: "contacts",
       headerName: APPLICATION_FIELDS.contacts,
-      width: COLUMN_STYLES.CELL_LG,
+      width: JOB_TABLE_COLUMN_STYLES.CELL_LG,
     },
   ];
 
@@ -127,10 +118,12 @@ export default function JobsTable({ rows, setRows }) {
         onClose={toggleDrawerIsOpen(false)}
       >
         {selectedRows.length === 1 && (
-          <EditJobForm
-            handleUpdateRow={handleUpdateRow}
-            selectedRow={selectedRows[0]}
-          />
+          <FormBox>
+            <EditJobForm
+              handleUpdateRow={handleUpdateRow}
+              selectedRow={selectedRows[0]}
+            />
+          </FormBox>
         )}
       </Drawer>
       <DataGrid
@@ -147,4 +140,6 @@ export default function JobsTable({ rows, setRows }) {
       <pre>{JSON.stringify(selectedRows, null, 2)}</pre>
     </Box>
   );
-}
+};
+
+export default JobsTable;

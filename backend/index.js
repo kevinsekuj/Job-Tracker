@@ -41,6 +41,9 @@ defineModels(sequelize);
 import users from "./routes/users.js";
 app.use("/users", users);
 
+import jobs from "./routes/jobs.js";
+app.use("/jobs", jobs);
+
 app.all("*", (_req, _res, next) => {
   next(new HTTPError("Resource not found.", 404));
 });

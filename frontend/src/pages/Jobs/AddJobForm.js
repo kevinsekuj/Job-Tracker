@@ -1,3 +1,4 @@
+import { APPLICATION_STATUSES } from "common/constants";
 import dayjs from "dayjs";
 import { Formik } from "formik";
 import JobForm from "pages/Jobs/JobForm";
@@ -6,40 +7,43 @@ import JobForm from "pages/Jobs/JobForm";
  * Adds a new job application.
  * This will move to its own page eventually. Probably.
  */
-const AddJobForm = ({ rows, setRows }) => (
-  <Formik
-    initialValues={{
-      company: "",
-      position: "",
-      date: dayjs(), // Same as date.now().
-      skills: "",
-      contacts: "",
-    }}
-    onSubmit={(formData, { setSubmitting, resetForm }) => {
-      setSubmitting(true);
+const AddJobForm = ({ handleCreateRow }) => {
+  const heading = "Add New Job";
+  const formType = "add";
+  return (
+    <Formik
+      initialValues={{
+        company: "",
+        position: "",
+        date: dayjs(), // Same as date.now().
+        jobStatus: APPLICATION_STATUSES.applied,
+        skills: "",
+        contacts: "",
+      }}
+      onSubmit={(formData, { setSubmitting, resetForm }) => {
+        const newRow = {
+          id: Math.random(),
+          ...formData,
+        };
 
-      const newRow = {
-        id: Math.random(),
-        ...formData,
-      };
-
-      // TODO: send async request w payload here
-
-      // On successful response use the id from DB, not random
-      setRows([newRow, ...rows]);
-
-      setSubmitting(false);
-      resetForm();
-    }}
-  >
-    {({ values, isSubmitting, setFieldValue }) => (
-      <JobForm
-        values={values}
-        isSubmitting={isSubmitting}
-        setFieldValue={setFieldValue}
-      />
-    )}
-  </Formik>
-);
+        // TODO: send async request w payload here
+        // On successful response...
+        handleCreateRow(newRow);
+        setSubmitting(false);
+        resetForm();
+      }}
+    >
+      {({ values, isSubmitting, setFieldValue }) => (
+        <JobForm
+          formType={formType}
+          heading={heading}
+          values={values}
+          isSubmitting={isSubmitting}
+          setFieldValue={setFieldValue}
+        />
+      )}
+    </Formik>
+  );
+};
 
 export default AddJobForm;

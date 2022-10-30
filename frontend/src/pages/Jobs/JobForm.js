@@ -1,26 +1,50 @@
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { JOB_FORM_ITEMS } from "common/constants.js";
+import { APPLICATION_STATUSES } from "common/constants";
 import { Field, Form } from "formik";
 
-const JobForm = ({ values, isSubmitting, setFieldValue }) => (
+const JobForm = ({
+  formType,
+  heading,
+  values,
+  isSubmitting,
+  setFieldValue,
+}) => (
   <Form>
     <Typography variant="h4" my={2}>
-      Add New Jerb
+      {heading}
     </Typography>
-    <Grid container direction="column" spacing={2}>
-      {JOB_FORM_ITEMS.map(item => (
-        <FormField
-          key={item}
-          label={item}
-          name={item.toLowerCase()}
+    <Grid container direction={"column"} spacing={3}>
+      <Grid item>
+        <Field
+          label="Company"
+          name="company"
           type="input"
-          fullWidth
+          fullWidth={true}
           disabled={isSubmitting}
           as={TextField}
         />
-      ))}
+      </Grid>
+      <Grid item>
+        <Field
+          label="Position"
+          name="position"
+          type="input"
+          fullWidth={true}
+          disabled={isSubmitting}
+          as={TextField}
+        />
+      </Grid>
       <Grid item>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DesktopDatePicker
@@ -31,9 +55,49 @@ const JobForm = ({ values, isSubmitting, setFieldValue }) => (
           />
         </LocalizationProvider>
       </Grid>
-
       <Grid item>
-        <Button fullWidth type="submit">
+        <FormControl fullWidth>
+          <InputLabel id={`${formType + "-select-label"}`}>Status</InputLabel>
+          <Select
+            labelId={`${formType + "-select-label"}`}
+            id={`${formType + "-select"}`}
+            label="Status"
+            value={values.jobStatus}
+            onChange={event => {
+              console.log(event.target.value);
+              setFieldValue("jobStatus", event.target.value, true);
+            }}
+          >
+            {Object.values(APPLICATION_STATUSES).map(value => (
+              <MenuItem key={value} value={value}>
+                {value}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Grid>
+      <Grid item>
+        <Field
+          label="Skills"
+          name="skills"
+          type="input"
+          fullWidth={true}
+          disabled={isSubmitting}
+          as={TextField}
+        />
+      </Grid>
+      <Grid item>
+        <Field
+          label="Contacts"
+          name="contacts"
+          type="input"
+          fullWidth={true}
+          disabled={isSubmitting}
+          as={TextField}
+        />
+      </Grid>
+      <Grid item>
+        <Button fullWidth type="submit" disabled={isSubmitting}>
           Submit
         </Button>
       </Grid>

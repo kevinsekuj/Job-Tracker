@@ -20,7 +20,7 @@ const Main = () => {
     <div style={{ display: "flex", flexDirection: "column" }}>
       <Router>
         <Navbar />
-        <Box sx={{ backgroundColor: "white", padding: "0 4em" }}>
+        <Box sx={{ padding: "0 4em" }}>
           <Typography variant="h1" align="center" my={2}>
             Track Jerbs
           </Typography>

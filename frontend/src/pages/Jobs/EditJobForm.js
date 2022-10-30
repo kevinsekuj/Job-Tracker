@@ -19,7 +19,6 @@ const EditJobForm = ({ handleUpdateRow, selectedRow }) => (
     }}
     onSubmit={(formData, { setSubmitting, resetForm }) => {
       setSubmitting(true);
-
       const newRow = {
         id: selectedRow.id,
         ...formData,
@@ -27,10 +26,8 @@ const EditJobForm = ({ handleUpdateRow, selectedRow }) => (
 
       // TODO: send async request w payload here
       // if err, do not update
-
       // On successful response
       handleUpdateRow(newRow);
-
       setSubmitting(false);
       resetForm();
     }}

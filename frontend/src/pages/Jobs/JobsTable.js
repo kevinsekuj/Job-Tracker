@@ -1,21 +1,43 @@
 import { Box, Button, Chip, Drawer } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { APPLICATION_FIELDS, JOB_TABLE_COLUMN_STYLES } from "common/constants";
-import { EditJobForm, FormBox } from "pages/Jobs/index";
+import { JOB_TABLE_COLUMN_STYLES } from "common/constants";
+import { FormBox } from "pages/Jobs/index";
 import { useState } from "react";
+import { APPLICATION_FIELDS } from "../../common/constants";
+import { AddJobForm, EditJobForm } from "./index";
 
 const JobsTable = ({ rows, setRows }) => {
   const [selectedRows, setSelectedRows] = useState([]);
-  const [drawerState, setDrawerState] = useState(false);
+  const [addDrawerState, setAddDrawerState] = useState(false);
+  const [editDrawerState, setEditDrawerState] = useState(false);
 
-  const toggleDrawerIsOpen = open => event => {
+  const toggleAddDrawerIsOpen = open => event => {
     if (
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
     ) {
       return;
     }
-    setDrawerState(open);
+    setAddDrawerState(open);
+  };
+
+  const toggleEditDrawerIsOpen = open => event => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    setEditDrawerState(open);
+  };
+
+  const handleCreateRow = newRow => {
+    // TODO: send async update payload to server
+    // if err, return no changes
+
+    // On successful response
+    setRows([newRow, ...rows]);
+    setAddDrawerState(false);
   };
 
   const handleUpdateRow = newRow => {
@@ -38,7 +60,7 @@ const JobsTable = ({ rows, setRows }) => {
 
     setRows(rowsWithEdit);
     setSelectedRows(selectedRowsWithEdit);
-    setDrawerState(false);
+    setEditDrawerState(false);
   };
 
   const handleDeleteRows = () => {
@@ -102,43 +124,68 @@ const JobsTable = ({ rows, setRows }) => {
   ];
 
   return (
-    <Box sx={{ height: 500 }}>
-      <Button
-        onClick={toggleDrawerIsOpen(true)}
-        disabled={selectedRows.length !== 1}
-      >
-        Edit
-      </Button>
-      <Button onClick={handleDeleteRows} disabled={selectedRows.length === 0}>
-        Delete
-      </Button>
-      <Drawer
-        anchor="right"
-        open={drawerState}
-        onClose={toggleDrawerIsOpen(false)}
-      >
-        {selectedRows.length === 1 && (
-          <FormBox>
-            <EditJobForm
-              handleUpdateRow={handleUpdateRow}
-              selectedRow={selectedRows[0]}
-            />
-          </FormBox>
-        )}
-      </Drawer>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={25}
-        checkboxSelection
-        onSelectionModelChange={ids => {
-          const selectedIDs = new Set(ids);
-          const selectedRows = rows.filter(row => selectedIDs.has(row.id));
-          setSelectedRows(selectedRows);
-        }}
-      />
-      <pre>{JSON.stringify(selectedRows, null, 2)}</pre>
-    </Box>
+    <>
+      <Box sx={{ display: "flex", flexDirection: "row", mb: 1 }}>
+        <Button
+          onClick={toggleAddDrawerIsOpen(true)}
+          color="secondary"
+          variant="contained"
+          disableElevation
+        >
+          Add
+        </Button>
+        <Drawer
+          anchor="right"
+          open={addDrawerState}
+          onClose={toggleAddDrawerIsOpen(false)}
+        >
+          <AddJobForm handleCreateRow={handleCreateRow} />
+        </Drawer>
+        <Button
+          variant="outlined"
+          onClick={toggleEditDrawerIsOpen(true)}
+          disabled={selectedRows.length !== 1}
+          sx={{ mx: 1 }}
+        >
+          Edit
+        </Button>
+        <Drawer
+          anchor="right"
+          open={editDrawerState}
+          onClose={toggleEditDrawerIsOpen(false)}
+        >
+          {selectedRows.length === 1 && (
+            <FormBox>
+              <EditJobForm
+                handleUpdateRow={handleUpdateRow}
+                selectedRow={selectedRows[0]}
+              />
+            </FormBox>
+          )}
+        </Drawer>
+        <Button
+          variant="outlined"
+          onClick={handleDeleteRows}
+          disabled={selectedRows.length === 0}
+        >
+          Delete
+        </Button>
+      </Box>
+      <Box sx={{ height: 600 }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={25}
+          checkboxSelection
+          onSelectionModelChange={ids => {
+            const selectedIDs = new Set(ids);
+            const selectedRows = rows.filter(row => selectedIDs.has(row.id));
+            setSelectedRows(selectedRows);
+          }}
+        />
+        <pre>{JSON.stringify(selectedRows, null, 2)}</pre>
+      </Box>
+    </>
   );
 };
 

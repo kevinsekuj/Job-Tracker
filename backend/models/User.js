@@ -1,34 +1,44 @@
-import { Sequelize, DataTypes } from "sequelize";
-const sequelize = new Sequelize("sqlite::memory:");
+import { DataTypes } from "sequelize";
 
-const User = sequelize.define("User", {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true,
-    unique: true,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  firstName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  lastLame: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  phoneNumber: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-});
+const User = sequelize => {
+  sequelize.define("User", {
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true,
+      },
+    },
+    password: {
+      type: DataTypes.STRING,
+      validate: {
+        // 8 - 16 characters, at least one capital, one lowercase, one symbol
+        is: /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/,
+      },
+    },
+    firstName: {
+      type: DataTypes.STRING,
+      validate: {
+        // Allow alphabetical characters and hyphen, up to 50 characters
+        is: /^[a-zA-Z-]{1, 50}$/,
+      },
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      validate: {
+        // Allow alphabetical characters and hyphen, up to 50 characters
+        is: /^[a-zA-Z-]{1, 50}$/,
+      },
+    },
+    phoneNumber: {
+      type: DataTypes.STRING,
+      validate: {
+        // Supports formatted and unformatted numbers
+        is: /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
+      },
+    },
+  });
+};
 
 export default User;

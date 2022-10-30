@@ -39,7 +39,9 @@ try {
 defineModels(sequelize);
 
 import users from "./routes/users.js";
+import companies from "./routes/companies.js";
 app.use("/users", users);
+app.use("/companies", companies);
 
 import jobs from "./routes/jobs.js";
 app.use("/jobs", jobs);

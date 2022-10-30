@@ -1,6 +1,17 @@
 import User from "../models/User.js";
 import getIdFromBodyParam from "../utils/getIdFromBodyParam.js";
 
+export async function getById(req, res) {
+  const id = getIdFromBodyParam(req);
+  const user = await User.findByPk(id);
+
+  if (!user) {
+    res.status(404).send("404 - User not found");
+  }
+
+  res.status(200).json(user);
+}
+
 export async function create(req, res) {
   if (req.body.id) {
     res

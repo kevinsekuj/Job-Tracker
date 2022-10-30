@@ -1,5 +1,3 @@
-// TODO connect to mysql db
-
 import { Sequelize } from "sequelize";
 
 export default async function connectToDb() {

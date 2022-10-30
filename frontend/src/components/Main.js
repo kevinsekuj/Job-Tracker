@@ -1,16 +1,11 @@
+import { Box, Typography } from "@mui/material";
+import getRowData from "common/service.js";
+import Navbar from "components/Navbar";
+import { ContactsPage, JobsPage, SkillsPage } from "pages/index";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import ContactsPage from "../pages/Contacts/ContactsPage.js";
-import JobsPage from "../pages/Jobs/JobsPage";
-import SkillsPage from "../pages/Skills/SkillsPage.js";
-import Navbar from "./Navbar";
-
-import getRowData from "../common/service.js";
-
-import { Box, Typography } from "@mui/material";
-
-export default function Main() {
+const Main = () => {
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
@@ -46,4 +41,6 @@ export default function Main() {
       </Router>
     </div>
   );
-}
+};
+
+export default Main;

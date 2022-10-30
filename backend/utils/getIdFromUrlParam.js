@@ -2,7 +2,7 @@
 // Adapted from https://github.com/sequelize/express-example/blob/master/express-main-example/express/helpers.js
 
 function getIdFromUrlParam(req) {
-  const id = req.body.id;
+  const id = req.params.id;
   if (/^\d+$/.test(id)) {
     return Number.parseInt(id, 10);
   }

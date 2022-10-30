@@ -6,8 +6,13 @@ const router = Router();
 router
   .route("/")
   .get(company.getAll)
-  .post(company.create)
+  .post(company.getById)
+  .delete(company.removeAll);
+
+router
+  .route("/:id")
+  .get(company.getById)
   .put(company.update)
-  .delete(company.del);
+  .delete(company.remove);
 
 export default router;

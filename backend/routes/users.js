@@ -3,11 +3,8 @@ import user from "../controllers/userController.js";
 
 const router = Router();
 
-router
-  .route("/")
-  .get(user.getById)
-  .post(user.create)
-  .put(user.update)
-  .delete(user.del);
+router.route("/").get(user.getAll).post(user.getById).delete(user.removeAll);
+
+router.route("/:id").get(user.getById).put(user.update).delete(user.remove);
 
 export default router;

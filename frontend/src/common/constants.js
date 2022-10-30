@@ -1,15 +1,3 @@
-export const NAVBAR_ITEM_TITLES = ["Logo", "Jobs", "Contacts", "Skills"];
-
-// TODO: Delete, replaced by APPLICATION FIELDS
-export const TABLE_HEADER_NAMES = [
-  "Company",
-  "Position",
-  "Date",
-  "Skills",
-  "Contacts",
-  "Status",
-];
-
 export const APPLICATION_FIELDS = {
   id: "ID",
   company: "Company",

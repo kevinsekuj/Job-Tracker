@@ -1,61 +1,49 @@
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
-import { Navbar, NavbarItem } from "../common/components";
-import { NAVBAR_ITEM_TITLES } from "../common/constants";
-import { makeNavbarItems } from "../common/utils";
-import AddJobForm from "./AddJobForm";
-import JobsGrid from "./JobsGrid";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import { getRowData } from "../common/service";
+import ContactsPage from "../pages/Contacts/ContactsPage.js";
+import JobsPage from "../pages/Jobs/JobsPage";
+import SkillsPage from "../pages/Skills/SkillsPage.js";
+import Navbar from "./Navbar";
 
-/**
- * Primary component in the React tree.
- */
-const Main = () => {
+import getRowData from "../common/service.js";
+
+import { Box, Typography } from "@mui/material";
+
+export default function Main() {
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchInitialTableData() {
       const { data } = await getRowData();
       setRows(data);
     }
-    fetchData();
+    fetchInitialTableData();
   }, []);
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <Navbar
-        s={{
-          margin: "0.5% 1% 0.5% 1%",
-        }}
-      >
-        {makeNavbarItems(NAVBAR_ITEM_TITLES).map(item => (
-          <NavbarItem key={item.title}>
-            <button style={{ height: "100%" }} onClick={item.handleButtonClick}>
-              {item.title}
-            </button>
-          </NavbarItem>
-        ))}
+      <Router>
+        <Navbar />
+        <Box sx={{ backgroundColor: "white", padding: "0 4em" }}>
+          <Typography variant="h1" align="center" my={2}>
+            Track Jerbs
+          </Typography>
 
-        <NavbarItem
-          s={{
-            marginLeft: "auto",
-          }}
-        >
-          <button style={{ height: "100%" }}>Log out</button>
-        </NavbarItem>
-      </Navbar>
-
-      <Box sx={{ backgroundColor: "white", padding: "0 4em" }}>
-        <Typography variant="h1" align="center" my={2}>
-          Track Jerbs
-        </Typography>
-        <AddJobForm rows={rows} setRows={setRows} />
-        <JobsGrid rows={rows} setRows={setRows} />
-      </Box>
+          <Routes>
+            <Route
+              path="/"
+              element={<JobsPage rows={rows} setRows={setRows} />}
+            />
+            <Route path="contacts" element={<ContactsPage />} />
+            <Route path="skills" element={<SkillsPage />} />
+            <Route
+              path="*"
+              element={<JobsPage rows={rows} setRows={setRows} />}
+            />
+          </Routes>
+        </Box>
+      </Router>
     </div>
   );
-};
-
-export default Main;
+}

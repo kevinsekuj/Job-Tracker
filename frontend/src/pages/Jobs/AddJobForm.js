@@ -1,21 +1,17 @@
-import { Button, TextField } from "@mui/material";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Unstable_Grid2";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+
+import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import dayjs from "dayjs";
+
 import { Field, Form, Formik } from "formik";
-import React from "react";
+
+import dayjs from "dayjs";
 
 /**
- * Edits an existing job application.
+ * Adds a new job application.
  * This will move to its own page eventually. Probably.
- *
- * can update single row??
  */
-export default function EditJobForm({ handleUpdateRow, selectedRow }) {
+export default function AddJobForm({ rows, setRows }) {
   return (
     <Box
       sx={{
@@ -27,25 +23,24 @@ export default function EditJobForm({ handleUpdateRow, selectedRow }) {
     >
       <Formik
         initialValues={{
-          company: selectedRow?.company ?? "",
-          position: selectedRow?.position ?? "",
-          date: selectedRow?.date ?? dayjs(), // Same as date.now().
-          skills: selectedRow?.skills ?? "",
-          contacts: selectedRow?.contacts ?? "",
+          company: "",
+          position: "",
+          date: dayjs(), // Same as date.now().
+          skills: "",
+          contacts: "",
         }}
         onSubmit={(formData, { setSubmitting, resetForm }) => {
           setSubmitting(true);
 
           const newRow = {
-            id: selectedRow.id,
+            id: Math.random(),
             ...formData,
           };
 
           // TODO: send async request w payload here
-          // if err, do not update
 
-          // On successful response
-          handleUpdateRow(newRow);
+          // On successful response use the id from DB, not random
+          setRows([newRow, ...rows]);
 
           setSubmitting(false);
           resetForm();
@@ -54,7 +49,7 @@ export default function EditJobForm({ handleUpdateRow, selectedRow }) {
         {({ values, isSubmitting, setFieldValue }) => (
           <Form>
             <Typography variant="h4" my={2}>
-              Edit Jerb
+              Add New Jerb
             </Typography>
             <Grid container direction={"column"} spacing={2}>
               <Grid item>

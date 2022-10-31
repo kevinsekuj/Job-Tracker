@@ -8,7 +8,7 @@ import JobForm from "pages/Jobs/JobForm";
  * This will move to its own page eventually. Probably.
  */
 const AddJobForm = ({ handleCreateRow }) => {
-  const heading = "Add New Job";
+  const heading = "New Job Application";
   const formType = "add";
   return (
     <Formik

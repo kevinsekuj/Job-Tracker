@@ -20,7 +20,7 @@ const Job = sequelize => {
         },
       },
     },
-    status: {
+    jobStatus: {
       type: DataTypes.STRING,
       isIn: [APPLICATION_STATUSES],
     },

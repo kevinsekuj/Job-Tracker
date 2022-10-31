@@ -24,7 +24,7 @@ export const DUMMY_TABLE_DATA = [
     date: "10-24-2022",
     skills: "C#, .NET, MS SQL Server 2005",
     contacts: "Thomas Timpson",
-    status: "Accepted Offer",
+    jobStatus: "Offer (Accepted)",
   },
   {
     id: 1,
@@ -33,7 +33,7 @@ export const DUMMY_TABLE_DATA = [
     date: "10-25-2022",
     skills: "DFS, single letter variable names",
     contacts: "Leslie Ivanov",
-    status: "Phone Interview",
+    jobStatus: "Phone Interview",
   },
   {
     id: 2,
@@ -42,7 +42,7 @@ export const DUMMY_TABLE_DATA = [
     date: "10-26-2022",
     skills: "Go, Docker, Kubernetes",
     contacts: "Nathan Perkins",
-    status: "Rejected Offer",
+    jobStatus: "Offer (Rejected)",
   },
   {
     id: 3,
@@ -51,6 +51,6 @@ export const DUMMY_TABLE_DATA = [
     date: "10-25-2022",
     skills: "AWS, React, Java",
     contacts: "Alex Deatherage",
-    status: "Applied",
+    jobStatus: "Applied",
   },
 ];

@@ -93,7 +93,7 @@ const JobsTable = ({ rows, setRows }) => {
     },
     {
       field: "jobStatus",
-      headerName: APPLICATION_FIELDS.status,
+      headerName: APPLICATION_FIELDS.jobStatus,
       width: JOB_TABLE_COLUMN_STYLES.CELL_SM,
     },
     {
@@ -129,7 +129,7 @@ const JobsTable = ({ rows, setRows }) => {
           variant="contained"
           disableElevation
         >
-          Add
+          NEW
         </Button>
         <Drawer
           anchor="right"

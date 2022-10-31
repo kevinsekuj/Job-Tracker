@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import MenuIcon from "@mui/icons-material/Menu";
 import WorkIcon from "@mui/icons-material/Work";
 import {
@@ -10,14 +11,17 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  Tooltip,
   Typography,
 } from "@mui/material";
-import { NAVBAR_ITEMS, SETTINGS } from "common/constants.js";
+import LoginButton from "common/components/LoginButton";
+import LogOutButton from "common/components/LogOutButton";
+import { NAVBAR_ITEMS } from "common/constants.js";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 const Navbar = () => {
+  const { isAuthenticated, user } = useAuth0();
+
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -25,7 +29,6 @@ const Navbar = () => {
   const handleOpenUserMenu = e => setAnchorElUser(e.currentTarget);
 
   const handleCloseNavMenu = () => setAnchorElNav(null);
-  const handleCloseUserMenu = () => setAnchorElUser(null);
 
   return (
     <AppBar position="static" style={{ background: "#2b2d42" }}>
@@ -115,32 +118,15 @@ const Navbar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {SETTINGS.map(setting => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar alt="Profile Picture" src={user?.picture || ""} />
+              <Typography color="whitesmoke" marginLeft="10px">
+                {user?.name}
+              </Typography>
+              <Box sx={{ padding: "0 10px", marginLeft: "20px" }}>
+                {isAuthenticated ? <LogOutButton /> : <LoginButton />}
+              </Box>
+            </IconButton>
           </Box>
         </Toolbar>
       </Container>

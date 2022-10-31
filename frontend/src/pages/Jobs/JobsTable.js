@@ -164,6 +164,7 @@ const JobsTable = ({ rows, setRows }) => {
         </Drawer>
         <Button
           variant="outlined"
+          color="error"
           onClick={handleDeleteRows}
           disabled={selectedRows.length === 0}
         >

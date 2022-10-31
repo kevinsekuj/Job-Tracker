@@ -1,5 +1,7 @@
-import User from "../models/User.js";
+import { db } from "../utils/dbConnect.js";
 import getIdFromUrlParam from "../utils/getIdFromUrlParam.js";
+
+const { User } = db.sequelize.models;
 
 export async function getAll(req, res) {
   const users = await User.findAll();

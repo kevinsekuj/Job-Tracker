@@ -1,6 +1,11 @@
-import { Sequelize } from "sequelize";
+import dotenv from "dotenv";
+dotenv.config();
 
-export default async function connectToDb() {
+import { Sequelize } from "sequelize";
+import defineModels from "./defineModels.js";
+import addAssociations from "./addAssociations.js";
+
+async function connectToDb() {
   const dialect = process.env.DB_DIALECT;
   const username = process.env.DB_USER;
   const password = process.env.DB_PASS;
@@ -15,3 +20,12 @@ export default async function connectToDb() {
 
   return sequelize;
 }
+
+const db = {};
+db.Sequelize = Sequelize;
+db.sequelize = await connectToDb();
+
+defineModels(db.sequelize);
+addAssociations(db.sequelize);
+
+export { db };

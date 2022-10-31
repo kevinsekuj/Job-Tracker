@@ -1,5 +1,7 @@
-import Contact from "../models/Contact.js";
+import { db } from "../utils/dbConnect.js";
 import getIdFromUrlParam from "../utils/getIdFromUrlParam.js";
+
+const { Contact } = db.sequelize.models;
 
 export async function getAll(req, res) {
   const contacts = await Contact.findAll();

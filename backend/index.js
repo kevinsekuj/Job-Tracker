@@ -5,9 +5,7 @@ if (process.env.NODE_ENV !== "production") dotenv.config();
 import cors from "cors";
 import express from "express";
 import { PORT } from "./utils/constants.js";
-import connectToDb from "./utils/dbConnect.js";
-import defineModels from "./utils/defineModels.js";
-import addAssociations from "./utils/addAssociations.js";
+import { db } from "./utils/dbConnect.js";
 import HTTPError from "./utils/error.js";
 
 const app = express();
@@ -18,8 +16,8 @@ app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
 
-// Connect to database
-const sequelize = await connectToDb();
+// Connect to database.
+const sequelize = db.sequelize;
 try {
   await sequelize.authenticate();
   console.log("Connected to RDS MySQL database.");
@@ -27,7 +25,7 @@ try {
   console.error("Unable to connect to the database:", error);
   process.exit(1);
 }
-// Drop database tables if needed and synchronize
+// Drop database tables if needed and synchronize.
 try {
   const drop_and_resync = process.env.NODE_ENV === "production" ? true : false;
   await sequelize.sync({ force: drop_and_resync });
@@ -36,12 +34,9 @@ try {
   console.error("Failed to sync database: " + error.message);
   process.exit(1);
 }
-// Define models with Sequelize instance
-defineModels(sequelize);
-addAssociations(sequelize);
 
 import users from "./routes/users.js";
-import companies from "./routes/users.js";
+import companies from "./routes/companies.js";
 import skills from "./routes/skills.js";
 import contacts from "./routes/contacts.js";
 import jobs from "./routes/jobs.js";

@@ -1,5 +1,7 @@
-import Skill from "../models/Skill.js";
+import { db } from "../utils/dbConnect.js";
 import getIdFromUrlParam from "../utils/getIdFromUrlParam.js";
+
+const { Skill } = db.sequelize.models;
 
 export async function getAll(req, res) {
   const skills = await Skill.findAll();

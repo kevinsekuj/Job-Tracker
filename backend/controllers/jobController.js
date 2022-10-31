@@ -1,5 +1,7 @@
-import Job from "../models/Job.js";
+import { db } from "../utils/dbConnect.js";
 import getIdFromUrlParam from "../utils/getIdFromUrlParam.js";
+
+const { Job } = db.sequelize.models;
 
 import { DUMMY_TABLE_DATA } from "../utils/constants.js";
 

@@ -8,11 +8,9 @@ import {
   Avatar,
   Box,
   Button,
-  Container,
   IconButton,
   Menu,
   MenuItem,
-  Toolbar,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -27,124 +25,135 @@ const Navbar = () => {
   const { isAuthenticated, user } = useAuth0();
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
-  const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
-  const handleOpenNavMenu = e => setAnchorElNav(e.currentTarget);
-  const handleOpenUserMenu = e => setAnchorElUser(e.currentTarget);
-  const handleCloseNavMenu = () => setAnchorElNav(null);
 
   return (
-    <AppBar position="static" style={{ background: "#2b2d42" }}>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
+    <AppBar
+      position="static"
+      sx={{
+        background: "#2b2d42",
+        minHeight: { xs: "8%", sm: "7%", md: "5%" },
+      }}
+    >
+      <Box
+        sx={{
+          margin: "0 5%",
+          display: "flex",
+          alignItems: "center",
+          flexGrow: 1,
+        }}
+      >
+        <Box sx={{ display: "flex", marginRight: "1%" }}>
           <WorkIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
             sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
+              display: { xs: "none", md: "inline-block" },
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
             }}
           >
             Job Tracker
           </Typography>
+        </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
+        <NavbarMenu sx={{ display: { xs: "block", sm: "none" } }} />
+
+        <Box sx={{ display: { xs: "none", sm: "flex" } }}>
+          {NAVBAR_ITEMS.map(page => (
+            <RouterLink key={page.url} to={page.url}>
+              <Button sx={{ color: "white" }}>{page.item}</Button>
+            </RouterLink>
+          ))}
+        </Box>
+
+        <Box
+          sx={{
+            margin: "0 1% 0 auto",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexGrow: 0.25,
+          }}
+        >
+          {isAuthenticated ? (
+            <Box
               sx={{
-                display: { xs: "block", md: "none" },
+                display: "flex",
+                alignItems: "center",
+                flexGrow: { xs: 1, sm: 0.75, md: 0.5, lg: 0.4, xl: 0.3 },
               }}
             >
-              {Object.keys(NAVBAR_ITEMS).map(page => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page.item}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <WorkIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            Job Tracker
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {NAVBAR_ITEMS.map(page => (
-              <RouterLink key={page.url} to={page.url}>
-                <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexGrow: 0.33,
+                }}
+              >
+                <Avatar
+                  sx={{ marginRight: "1%" }}
+                  alt="Profile Picture"
+                  src={user?.picture || ""}
+                />
+                <Typography
+                  sx={{ display: { xs: "none", md: "inline-block" } }}
+                  noWrap
+                  color="whitesmoke"
+                  marginRight="8%"
                 >
-                  {page.item}
-                </Button>
-              </RouterLink>
-            ))}
-          </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt="Profile Picture" src={user?.picture || ""} />
-              <Typography color="whitesmoke" marginLeft="10px">
-                {user?.name}
-              </Typography>
-              <Box sx={{ padding: "0 10px", marginLeft: "20px" }}>
-                {isAuthenticated ? <LogOutButton /> : <LoginButton />}
+                  {user.name}
+                </Typography>
               </Box>
-            </IconButton>
-            <IconButton
-              sx={{ ml: 1 }}
-              onClick={colorMode.toggleColorMode}
-              color="inherit"
-            >
-              {theme.palette.mode === "dark" ? (
-                <Brightness7Icon />
-              ) : (
-                <Brightness4Icon />
-              )}
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </Container>
+
+              <Box>
+                <LogOutButton />
+              </Box>
+            </Box>
+          ) : (
+            <LoginButton />
+          )}
+        </Box>
+
+        <IconButton onClick={colorMode.toggleColorMode} color="inherit">
+          {theme.palette.mode === "dark" ? (
+            <Brightness7Icon />
+          ) : (
+            <Brightness4Icon />
+          )}
+        </IconButton>
+      </Box>
     </AppBar>
+  );
+};
+
+const NavbarMenu = ({ sx }) => {
+  const [anchorElement, setAnchorElement] = useState(null);
+  const isOpen = !!anchorElement;
+
+  const handleOpenNavMenu = e => setAnchorElement(e.currentTarget);
+  const handleCloseNavMenu = () => setAnchorElement(null);
+
+  return (
+    <Box sx={sx}>
+      <IconButton onClick={handleOpenNavMenu} color="inherit">
+        <MenuIcon />
+      </IconButton>
+      <Menu anchorEl={anchorElement} open={isOpen} onClose={handleCloseNavMenu}>
+        {NAVBAR_ITEMS.map(page => (
+          <RouterLink
+            key={page.item}
+            to={page.url}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <MenuItem sx={{ backgroundColor: "whitesmoke" }}>
+              {page.item}
+            </MenuItem>
+          </RouterLink>
+        ))}
+      </Menu>
+    </Box>
   );
 };
 

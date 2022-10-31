@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config();
+if (process.env.NODE_ENV !== "production") dotenv.config();
 
 import { Sequelize } from "sequelize";
 import defineModels from "./defineModels.js";

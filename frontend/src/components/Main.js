@@ -23,10 +23,10 @@ const Main = () => {
       setRows(data);
     }
     if (isAuthenticated) fetchInitialTableData();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, user?.email]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <Router>
         <Navbar />
         {(() => {

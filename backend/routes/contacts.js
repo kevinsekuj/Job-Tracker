@@ -6,7 +6,7 @@ const router = Router();
 router
   .route("/")
   .get(contact.getAll)
-  .post(contact.getById)
+  .post(contact.create)
   .delete(contact.removeAll);
 
 router

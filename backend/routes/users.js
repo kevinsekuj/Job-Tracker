@@ -3,7 +3,7 @@ import user from "../controllers/userController.js";
 
 const router = Router();
 
-router.route("/").get(user.getAll).post(user.getById).delete(user.removeAll);
+router.route("/").get(user.getAll).post(user.create).delete(user.removeAll);
 
 router.route("/:id").get(user.getById).put(user.update).delete(user.remove);
 

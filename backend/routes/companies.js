@@ -6,7 +6,7 @@ const router = Router();
 router
   .route("/")
   .get(company.getAll)
-  .post(company.getById)
+  .post(company.create)
   .delete(company.removeAll);
 
 router

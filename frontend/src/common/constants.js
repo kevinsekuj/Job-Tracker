@@ -43,9 +43,21 @@ export const NAVBAR_ITEMS = [
   },
 ];
 
+export const NAV_BUTTON_THEME = {
+  palette: {
+    primary: {
+      main: "#EDF2F4",
+      contrastText: "black",
+    },
+  },
+};
+
 export const SETTINGS = ["Logout"];
 
 export const JOB_FORM_ITEMS = ["Company", "Position", "Skills", "Contacts"];
 
-export const JOBS_ENDPOINT_URL =
-  process.env.JOBS_ENDPOINT_URL || "http://localhost:5000/jobs";
+export const JOBS_ENDPOINT_URL = process.env.REACT_APP_JOBS_ENDPOINT_URL;
+
+export const DOMAIN = process.env.REACT_APP_AUTH0_DOMAIN;
+
+export const CLIENT_ID = process.env.REACT_APP_AUTH0_CLIENT_ID;

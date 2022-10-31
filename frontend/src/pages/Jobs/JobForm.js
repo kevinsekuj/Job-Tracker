@@ -108,12 +108,4 @@ const JobForm = ({
   </Form>
 );
 
-function FormField({ ...rest }) {
-  return (
-    <Grid item>
-      <Field {...rest}></Field>
-    </Grid>
-  );
-}
-
 export default JobForm;

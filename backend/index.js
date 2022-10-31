@@ -7,6 +7,7 @@ import express from "express";
 import { PORT } from "./utils/constants.js";
 import connectToDb from "./utils/dbConnect.js";
 import defineModels from "./utils/defineModels.js";
+import addAssociations from "./utils/addAssociations.js";
 import HTTPError from "./utils/error.js";
 
 const app = express();
@@ -37,13 +38,16 @@ try {
 }
 // Define models with Sequelize instance
 defineModels(sequelize);
+addAssociations(sequelize);
 
 import users from "./routes/users.js";
 import companies from "./routes/users.js";
 import skills from "./routes/skills.js";
+import contacts from "./routes/contacts.js";
 app.use("/users", users);
 app.use("/companies", companies);
 app.use("/skills", skills);
+app.use("/contacts", contacts);
 
 import jobs from "./routes/jobs.js";
 app.use("/jobs", jobs);

@@ -1,4 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 import MenuIcon from "@mui/icons-material/Menu";
 import WorkIcon from "@mui/icons-material/Work";
 import {
@@ -12,22 +14,23 @@ import {
   MenuItem,
   Toolbar,
   Typography,
+  useTheme,
 } from "@mui/material";
 import LoginButton from "common/components/LoginButton";
 import LogOutButton from "common/components/LogOutButton";
 import { NAVBAR_ITEMS } from "common/constants.js";
-import { useState } from "react";
+import ColorModeContext from "common/contexts";
+import { useContext, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 const Navbar = () => {
   const { isAuthenticated, user } = useAuth0();
-
+  const theme = useTheme();
+  const colorMode = useContext(ColorModeContext);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-
   const handleOpenNavMenu = e => setAnchorElNav(e.currentTarget);
   const handleOpenUserMenu = e => setAnchorElUser(e.currentTarget);
-
   const handleCloseNavMenu = () => setAnchorElNav(null);
 
   return (
@@ -126,6 +129,17 @@ const Navbar = () => {
               <Box sx={{ padding: "0 10px", marginLeft: "20px" }}>
                 {isAuthenticated ? <LogOutButton /> : <LoginButton />}
               </Box>
+            </IconButton>
+            <IconButton
+              sx={{ ml: 1 }}
+              onClick={colorMode.toggleColorMode}
+              color="inherit"
+            >
+              {theme.palette.mode === "dark" ? (
+                <Brightness7Icon />
+              ) : (
+                <Brightness4Icon />
+              )}
             </IconButton>
           </Box>
         </Toolbar>

@@ -10,7 +10,7 @@ import JobForm from "pages/Jobs/JobForm";
  * can update single row??
  */
 const EditJobForm = ({ handleUpdateRow, selectedRow }) => {
-  const heading = "Edit Job";
+  const heading = "Edit Job Application";
   const formType = "edit";
   return (
     <Formik
@@ -18,7 +18,7 @@ const EditJobForm = ({ handleUpdateRow, selectedRow }) => {
         company: selectedRow?.company ?? "",
         position: selectedRow?.position ?? "",
         date: selectedRow?.date ?? dayjs(), // Same as date.now().
-        jobStatus: selectedRow?.status ?? APPLICATION_STATUSES.applied,
+        jobStatus: selectedRow?.jobStatus ?? APPLICATION_STATUSES.applied,
         skills: selectedRow?.skills ?? "",
         contacts: selectedRow?.contacts ?? "",
       }}

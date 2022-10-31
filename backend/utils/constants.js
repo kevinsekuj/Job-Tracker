@@ -1,4 +1,5 @@
 export const PORT = process.env.PORT || 5000;
+export const USER_SKILL = "User_Skill";
 
 export const DUMMY_TABLE_DATA = [
   {

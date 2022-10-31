@@ -1,5 +1,20 @@
 export const PORT = process.env.PORT || 5000;
 export const USER_SKILL = "User_Skill";
+export const JOB_SKILL = "Job_Skill";
+
+export const APPLICATION_STATUSES = [
+  "Applied",
+  "Online Assessment",
+  "Phone Interview",
+  "Onsite Interview",
+  "Behavioral Interview",
+  "Final Interview",
+  "Offer (Pending)",
+  "Offer (Accepted)",
+  "Offer (Rejected)",
+  "Withdrawn",
+  "Rejected",
+];
 
 export const DUMMY_TABLE_DATA = [
   {

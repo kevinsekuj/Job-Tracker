@@ -44,12 +44,11 @@ import users from "./routes/users.js";
 import companies from "./routes/users.js";
 import skills from "./routes/skills.js";
 import contacts from "./routes/contacts.js";
+import jobs from "./routes/jobs.js";
 app.use("/users", users);
 app.use("/companies", companies);
 app.use("/skills", skills);
 app.use("/contacts", contacts);
-
-import jobs from "./routes/jobs.js";
 app.use("/jobs", jobs);
 
 app.all("*", (_req, _res, next) => {

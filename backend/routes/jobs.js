@@ -3,11 +3,8 @@ import job from "../controllers/jobController.js";
 
 const router = Router();
 
-router
-  .route("/")
-  .get(job.read)
-  .post(job.create)
-  .put(job.update)
-  .delete(job.del);
+router.route("/").get(job.read).post(job.getById).delete(job.removeAll);
+
+router.route("/:id").get(job.getById).put(job.update).delete(job.remove);
 
 export default router;

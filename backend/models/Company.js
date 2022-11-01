@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 
 const Company = sequelize => {
   sequelize.define("Company", {
-    email: {
+    name: {
       type: DataTypes.STRING,
       unique: true,
       validate: {

@@ -29,19 +29,12 @@ export async function getById(req, res) {
 }
 
 export async function create(req, res) {
-  if (req.body.id) {
-    res
-      .status(400)
-      .send(
-        `Bad request: ID is determined by database and should not be provided.`
-      );
-  }
-
-  await Job.create(req.body);
-  res.status(201).end();
+  console.log("JOB POST request received:", req?.body);
+  res.status(200).json({ status: 200, data: "new Row" });
 }
 
 export async function update(req, res) {
+  console.log("JOB PUT request received");
   const id = getIdFromUrlParam(req);
 
   // Only accept update request if `:id` URL param matches body `id` param
@@ -53,36 +46,44 @@ export async function update(req, res) {
       );
   }
 
-  await Job.update(req.body, {
-    where: {
-      id: id,
-    },
-  });
-  res.status(200).end();
+  // await Job.update(req.body, {
+  //   where: {
+  //     id: id,
+  //   },
+  // });
+  res.status(200).json({ status: 200, data: "updated Row" });
 }
 
 export async function remove(req, res) {
+  console.log("JOB DELETE request received");
   const id = getIdFromUrlParam(req);
-  await Job.destroy({
-    where: {
-      id: id,
-    },
-  });
-  res.status(200).end();
+
+  // await Job.destroy({
+  //   where: {
+  //     id: id,
+  //   },
+  // });
+
+  res.status(200).json({ status: 200, data: "deleted Row" });
 }
 
 export async function removeAll(req, res) {
-  Job.destroy({
-    truncate: true,
-  })
-    .then(numRowsDeleted => {
-      res.status(200).send(`${numRowsDeleted} Jobs removed successfully.`);
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .send(err.message || "An error occurred while removing all Jobs.");
-    });
+  console.log("JOB DELETE ALL request received");
+  const ids = req.body.ids;
+  console.log(ids);
+  res.send(200).json({ status: 200, data: "deleted Row IDs" });
+
+  // Job.destroy({
+  //   truncate: true,
+  // })
+  //   .then(numRowsDeleted => {
+  //     res.status(200).send(`${numRowsDeleted} Jobs removed successfully.`);
+  //   })
+  //   .catch(err => {
+  //     res
+  //       .status(500)
+  //       .send(err.message || "An error occurred while removing all Jobs.");
+  //   });
 }
 
 export default { read, getAll, getById, create, update, remove, removeAll };

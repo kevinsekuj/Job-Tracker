@@ -1,19 +1,14 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import LoadingSpinner from "common/components/LoadingSpinner";
 import Unauthorized from "common/components/Unauthorized";
-import ColorModeContext from "common/contexts";
-import getRowData from "common/service.js";
+import { getRowData } from "common/service.js";
 import Navbar from "components/Navbar";
 import { ContactsPage, JobsPage, SkillsPage } from "pages/index";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 const Main = () => {
-  const theme = useTheme();
-  const colorMode = useContext(ColorModeContext);
-
   const { isAuthenticated, isLoading, user } = useAuth0();
   const [rows, setRows] = useState([]);
 

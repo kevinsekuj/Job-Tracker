@@ -28,22 +28,36 @@ export async function getById(req, res) {
   res.status(200).json(job);
 }
 
+/**
+ * CREATE job, response provides new row columns with (new) associated id.
+ * @param {Object} req.body Request payload.
+ * @param {String} req.body.company
+ * @param {String} req.body.position
+ * @param {Date} req.body.date
+ * @param {String} req.body.jobStatus
+ * @param {String} req.body.skills
+ * @param {String} req.body.contacts
+ * @return {Object} res {status: Number, newRow: Object}
+ */
 export async function create(req, res) {
-  if (req.body.id) {
-    res
-      .status(400)
-      .send(
-        `Bad request: ID is determined by database and should not be provided.`
-      );
-  }
-
-  await Job.create(req.body);
-  res.status(201).end();
+  // TODO(any): replace with db row columns.
+  const newRow = { id: Math.random(), ...req.body };
+  res.status(201).json({ status: 200, newRow: newRow });
 }
 
+/**
+ * UPDATE job, response provides updated row columns.
+ * @param {Object} req.body Request payload.
+ * @param {String} req.body.company
+ * @param {String} req.body.position
+ * @param {Date} req.body.date
+ * @param {String} req.body.jobStatus
+ * @param {String} req.body.skills
+ * @param {String} req.body.contacts
+ * @return {Object} res {status: Number, updatedRow: Object}
+ */
 export async function update(req, res) {
   const id = getIdFromUrlParam(req);
-
   // Only accept update request if `:id` URL param matches body `id` param
   if (req.body.id !== id) {
     res
@@ -52,37 +66,36 @@ export async function update(req, res) {
         `Bad request: param ID (${id}) does not match body ID (${req.body.id}).`
       );
   }
-
-  await Job.update(req.body, {
-    where: {
-      id: id,
-    },
-  });
-  res.status(200).end();
+  // await Job.update(req.body, {
+  //   where: {
+  //     id: id,
+  //   },
+  // });
+  const updatedRow = req.body; // TODO(any): replace with db response.\
+  res.status(200).json({ status: 200, updatedRow: updatedRow });
 }
 
-export async function remove(req, res) {
-  const id = getIdFromUrlParam(req);
-  await Job.destroy({
-    where: {
-      id: id,
-    },
-  });
-  res.status(200).end();
-}
-
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ */
 export async function removeAll(req, res) {
-  Job.destroy({
-    truncate: true,
-  })
-    .then(numRowsDeleted => {
-      res.status(200).send(`${numRowsDeleted} Jobs removed successfully.`);
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .send(err.message || "An error occurred while removing all Jobs.");
-    });
+  const requestIds = req.body.ids;
+  console.log(requestIds);
+  // Job.destroy({
+  //   truncate: true,
+  // })
+  //   .then(numRowsDeleted => {
+  //     res.status(200).send(`${numRowsDeleted} Jobs removed successfully.`);
+  //   })
+  //   .catch(err => {
+  //     res
+  //       .status(500)
+  //       .send(err.message || "An error occurred while removing all Jobs.");
+  //   });
+  const deletedIds = ids; // TODO(any): replace with Db deleted IDs
+  res.status(200).json({ ids: deletedIds });
 }
 
-export default { read, getAll, getById, create, update, remove, removeAll };
+export default { read, getAll, getById, create, update, removeAll };

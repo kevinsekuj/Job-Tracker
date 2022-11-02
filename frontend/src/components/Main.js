@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Typography } from "@mui/material";
 import LoadingSpinner from "common/components/LoadingSpinner";
 import Unauthorized from "common/components/Unauthorized";
-import getRowData from "common/service.js";
+import { getRowData } from "common/service.js";
 import Navbar from "components/Navbar";
 import { ContactsPage, JobsPage, SkillsPage } from "pages/index";
 import { useEffect, useState } from "react";
@@ -10,7 +10,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 const Main = () => {
   const { isAuthenticated, isLoading, user } = useAuth0();
-  console.log(user);
   const [rows, setRows] = useState([]);
 
   useEffect(() => {

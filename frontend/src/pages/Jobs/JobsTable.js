@@ -1,8 +1,8 @@
 import { Box, Button, Chip, Drawer, Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import { DataGrid } from "@mui/x-data-grid";
-import axios from "axios";
 import { JOB_TABLE_COLUMN_STYLES } from "common/constants";
+import { addJobRow, deleteJobRows, updateJobRow } from "common/service";
 import { FormBox } from "pages/Jobs/index";
 import { forwardRef, useState } from "react";
 import { APPLICATION_FIELDS } from "../../common/constants";
@@ -33,7 +33,13 @@ const JobsTable = ({ rows, setRows }) => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
 
-  // Handler to close confirmation/error UI snackbars.
+  /**
+   *
+   * @param {*} _ (event, unused)
+   * @param {*} reason
+   * @param {*} setSnackOpen
+   * @returns
+   */
   const handleCloseSnackbar = (_, reason, setSnackOpen) => {
     if (reason === "clickaway") {
       return;
@@ -41,7 +47,11 @@ const JobsTable = ({ rows, setRows }) => {
     setSnackOpen(false);
   };
 
-  // Handler to open and close job-app-add UI side drawer.
+  /**
+   *
+   * @param {*} open
+   * @returns
+   */
   const toggleAddDrawerIsOpen = open => event => {
     if (
       event.type === "keydown" &&
@@ -52,7 +62,11 @@ const JobsTable = ({ rows, setRows }) => {
     setAddJobDrawerIsOpen(open);
   };
 
-  // Handler to open and close the job-app-edit UI side drawer.
+  /**
+   *
+   * @param {*} open
+   * @returns
+   */
   const toggleEditDrawerIsOpen = open => event => {
     if (
       event.type === "keydown" &&
@@ -63,13 +77,14 @@ const JobsTable = ({ rows, setRows }) => {
     setEditJobDrawerIsOpen(open);
   };
 
-  // Handler on-form-submit for server-side request of new job-app.
-  const handleCreateRow = newRow => {
+  /**
+   *
+   * @param {*} userInputRow
+   */
+  const handleCreateRow = async userInputRow => {
     // TODO(dan): Input Validation for Create Row
-    axios
-      .post(REACT_APP_JOBS_ENDPOINT_URL, newRow)
-      .then(res => {
-        // TODO(dan): use response row data to add row
+    await addJobRow(userInputRow)
+      .then(({ newRow }) => {
         setRows([newRow, ...rows]);
         setAddJobDrawerIsOpen(false);
         setSnackbarMessage(SNACKBAR.addSuccessMsg);
@@ -83,22 +98,23 @@ const JobsTable = ({ rows, setRows }) => {
       });
   };
 
-  // Handler on-form-submit for server-side request of updated job-app fields.
-  const handleUpdateRow = async newRow => {
+  /**
+   *
+   * @param {*} newRow
+   */
+  const handleUpdateRow = async userInputRow => {
     // TODO(dan): Input Validation for Create Row
-    axios
-      .put(REACT_APP_JOBS_ENDPOINT_URL + `/${newRow.id}`, newRow)
-      .then(res => {
-        // TODO(dan): use response row data to edit row
+    await updateJobRow(userInputRow)
+      .then(({ updatedRow }) => {
         const rowsWithEdit = rows.map(row => {
-          if (row.id === newRow.id) {
-            return newRow;
+          if (row.id === updatedRow.id) {
+            return updatedRow;
           }
           return row;
         });
         const selectedRowsWithEdit = selectedRows.map(row => {
-          if (row.id === newRow.id) {
-            return newRow;
+          if (row.id === updatedRow.id) {
+            return updatedRow;
           }
           return row;
         });
@@ -111,23 +127,22 @@ const JobsTable = ({ rows, setRows }) => {
       })
       .catch(err => {
         setSnackbarMessage(SNACKBAR.errorMsg);
-        setSnackbarSeverity(SNACKBAR.error);
+        setSnackbarSeverity(SNACKBAR.errorSeverity);
         setSnackbarIsOpen(true);
       });
   };
 
-  // Handler on-table-delete for server-side request of job-app deletion.
-  const handleDeleteRows = () => {
+  /**
+   *
+   */
+  const handleDeleteRows = async () => {
     const selectedIds = selectedRows.map(row => row.id);
-    axios
-      .delete(REACT_APP_JOBS_ENDPOINT_URL, { data: { ids: selectedIds } })
-      .then(res => {
-        const rowsWithoutDeletes = rows.filter(
-          row => !selectedIds.includes(row.id)
-        );
+    await deleteJobRows(selectedIds)
+      .then(({ ids }) => {
+        const rowsWithoutDeletes = rows.filter(row => !ids.includes(row.id));
         setRows(rowsWithoutDeletes);
         setSnackbarMessage(SNACKBAR.deleteSuccessMsg);
-        setSnackbarSeverity(SNACKBAR.success);
+        setSnackbarSeverity(SNACKBAR.successSeverity);
         setSnackbarIsOpen(true);
       })
       .catch(err => {

@@ -28,15 +28,36 @@ export async function getById(req, res) {
   res.status(200).json(job);
 }
 
+/**
+ * CREATE job, response provides new row columns with (new) associated id.
+ * @param {Object} req.body Request payload.
+ * @param {String} req.body.company
+ * @param {String} req.body.position
+ * @param {Date} req.body.date
+ * @param {String} req.body.jobStatus
+ * @param {String} req.body.skills
+ * @param {String} req.body.contacts
+ * @return {Object} res {status: Number, newRow: Object}
+ */
 export async function create(req, res) {
-  console.log("JOB POST request received:", req?.body);
-  res.status(200).json({ status: 200, data: "new Row" });
+  // TODO(any): replace with db row columns.
+  const newRow = { id: Math.random(), ...req.body };
+  res.status(201).json({ status: 200, newRow: newRow });
 }
 
+/**
+ * UPDATE job, response provides updated row columns.
+ * @param {Object} req.body Request payload.
+ * @param {String} req.body.company
+ * @param {String} req.body.position
+ * @param {Date} req.body.date
+ * @param {String} req.body.jobStatus
+ * @param {String} req.body.skills
+ * @param {String} req.body.contacts
+ * @return {Object} res {status: Number, updatedRow: Object}
+ */
 export async function update(req, res) {
-  console.log("JOB PUT request received");
   const id = getIdFromUrlParam(req);
-
   // Only accept update request if `:id` URL param matches body `id` param
   if (req.body.id !== id) {
     res
@@ -45,34 +66,23 @@ export async function update(req, res) {
         `Bad request: param ID (${id}) does not match body ID (${req.body.id}).`
       );
   }
-
   // await Job.update(req.body, {
   //   where: {
   //     id: id,
   //   },
   // });
-  res.status(200).json({ status: 200, data: "updated Row" });
+  const updatedRow = req.body; // TODO(any): replace with db response.\
+  res.status(200).json({ status: 200, updatedRow: updatedRow });
 }
 
-export async function remove(req, res) {
-  console.log("JOB DELETE request received");
-  const id = getIdFromUrlParam(req);
-
-  // await Job.destroy({
-  //   where: {
-  //     id: id,
-  //   },
-  // });
-
-  res.status(200).json({ status: 200, data: "deleted Row" });
-}
-
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ */
 export async function removeAll(req, res) {
-  console.log("JOB DELETE ALL request received");
-  const ids = req.body.ids;
-  console.log(ids);
-  res.send(200).json({ status: 200, data: "deleted Row IDs" });
-
+  const requestIds = req.body.ids;
+  console.log(requestIds);
   // Job.destroy({
   //   truncate: true,
   // })
@@ -84,6 +94,8 @@ export async function removeAll(req, res) {
   //       .status(500)
   //       .send(err.message || "An error occurred while removing all Jobs.");
   //   });
+  const deletedIds = ids; // TODO(any): replace with Db deleted IDs
+  res.status(200).json({ ids: deletedIds });
 }
 
-export default { read, getAll, getById, create, update, remove, removeAll };
+export default { read, getAll, getById, create, update, removeAll };

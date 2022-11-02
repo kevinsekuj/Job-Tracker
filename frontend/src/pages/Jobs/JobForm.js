@@ -52,6 +52,7 @@ const JobForm = ({
             value={values.date}
             onChange={value => setFieldValue("date", value, true)}
             renderInput={params => <TextField {...params} fullWidth />}
+            disableFuture
           />
         </LocalizationProvider>
       </Grid>

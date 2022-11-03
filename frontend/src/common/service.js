@@ -1,5 +1,6 @@
 import axios from "axios";
 import { JOBS_ENDPOINT_URL } from "common/constants";
+import formatDate from "./utils";
 
 /**
  *
@@ -25,6 +26,11 @@ const addJobRow = async newRow => {
   switch (response.status) {
     case 201:
     case 200:
+      const date = response.data.newRow.date;
+      if (date && typeof date === "string") {
+        response.data.newRow.date = formatDate(date);
+      }
+
       return response.data;
     default:
       throw new Error(
@@ -46,7 +52,6 @@ const updateJobRow = async updatedRow => {
     JOBS_ENDPOINT_URL + `/${updatedRow.id}`,
     updatedRow
   );
-  console.log(response);
   switch (response.status) {
     case 201:
     case 200:

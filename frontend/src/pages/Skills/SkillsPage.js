@@ -19,6 +19,8 @@ ChartJS.register(
   Legend
 );
 
+const TOP_FIVE_RESULTS_OFFSET = 5;
+
 const SkillsPage = ({ skillsMap, totalJobs }) => {
   skillsMap.set("Python", 3);
   skillsMap.set("JavaScript", 6);
@@ -74,7 +76,7 @@ const SkillsPage = ({ skillsMap, totalJobs }) => {
         <Box>
           {[...skillsMap.entries()]
             .sort((a, b) => b[1] - a[1])
-            .slice(0, 5)
+            .slice(0, TOP_FIVE_RESULTS_OFFSET)
             .map(element => (
               <Typography key={element}>
                 <strong>{element[0]}</strong> appeared in{" "}

@@ -95,7 +95,6 @@ const JobsTable = ({ rows, setRows }) => {
     // TODO(dan): Input Validation for Create Row
     await addJobRow(userInputRow)
       .then(newRow => {
-        console.log(newRow);
         setRows(rows.concat(newRow));
         setAddJobDrawerIsOpen(false);
         setSnackbarMessage(SNACKBAR.addSuccessMsg);

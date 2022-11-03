@@ -11,7 +11,16 @@ const getJobsData = async userId => {
   const response = await axios.get(JOBS_ENDPOINT_URL, {
     params: { userId: userId },
   });
+
   if (response.status === 200) {
+    response.data.forEach(row => {
+      // Apply nice formatting to date strings.
+      const date = row.dateApplied;
+      if (date && typeof date === "string") {
+        row.dateApplied = formatDate(date);
+      }
+    });
+
     return response.data;
   }
 };

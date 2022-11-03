@@ -22,6 +22,7 @@ const Main = () => {
       const data = await getRowData(user?.sub);
 
       data.forEach(dataObject => {
+        // Count skill occurrences.
         dataObject.skills?.split(",").forEach(skill => {
           const processedSkill = skill.trim();
 
@@ -32,7 +33,7 @@ const Main = () => {
           }
         });
       });
-      
+
       setRows(data);
     }
     if (isAuthenticated) fetchInitialTableData();

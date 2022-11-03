@@ -65,7 +65,6 @@ const JobForm = ({
             label="Status"
             value={values.jobStatus}
             onChange={event => {
-              console.log(event.target.value);
               setFieldValue("jobStatus", event.target.value, true);
             }}
           >

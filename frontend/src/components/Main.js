@@ -1,12 +1,16 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { Box } from "@mui/material";
-import LoadingSpinner from "common/components/LoadingSpinner";
-import Unauthorized from "common/components/Unauthorized";
-import { getRowData } from "common/service.js";
-import Navbar from "components/Navbar";
-import { ContactsPage, JobsPage, SkillsPage } from "pages/index";
 import { useEffect, useRef, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+import { useAuth0 } from "@auth0/auth0-react";
+
+import LoadingSpinner from "common/components/LoadingSpinner";
+import Unauthorized from "common/components/Unauthorized";
+import Navbar from "components/Navbar";
+import { ContactsPage, JobsPage, SkillsPage } from "pages/index";
+
+import { getRowData } from "common/service.js";
+
+import { Box } from "@mui/material";
 
 const Main = () => {
   const { isAuthenticated, isLoading, user } = useAuth0();

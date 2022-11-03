@@ -1,7 +1,9 @@
+import JobForm from "pages/Jobs/JobForm";
+
 import { APPLICATION_STATUSES } from "common/constants";
+
 import dayjs from "dayjs";
 import { Formik } from "formik";
-import JobForm from "pages/Jobs/JobForm";
 
 /**
  * Edits an existing job application.

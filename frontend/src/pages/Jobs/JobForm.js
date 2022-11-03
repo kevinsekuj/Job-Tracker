@@ -49,7 +49,7 @@ const JobForm = ({
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DesktopDatePicker
             label="Date Applied"
-            value={values.date}
+            value={values.dateApplied}
             onChange={value => setFieldValue("date", value, true)}
             renderInput={params => <TextField {...params} fullWidth />}
             disableFuture
@@ -63,10 +63,10 @@ const JobForm = ({
             labelId={`${formType + "-select-label"}`}
             id={`${formType + "-select"}`}
             label="Status"
-            value={values.jobStatus}
+            value={values.status}
             onChange={event => {
               console.log(event.target.value);
-              setFieldValue("jobStatus", event.target.value, true);
+              setFieldValue("status", event.target.value, true);
             }}
           >
             {Object.values(APPLICATION_STATUSES).map(value => (

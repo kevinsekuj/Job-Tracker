@@ -3,21 +3,26 @@ import getIdFromUrlParam from "../utils/getIdFromUrlParam.js";
 
 const { Job } = db.sequelize.models;
 
-import { DUMMY_TABLE_DATA } from "../utils/constants.js";
-
-export async function read(req, res) {
-  // const data = await Job.findAll();
-  //res.json(DUMMY_TABLE_DATA);
-  console.log("request received");
-  res.status(200).json({ status: 200, data: DUMMY_TABLE_DATA });
+/**
+ * READ jobs filtered by userId, response provides filtered rows.
+ * @param {Object} req.body Request payload.
+ * @param {String} req.body.company
+ * @param {String} req.body.position
+ * @param {Date} req.body.date
+ * @param {String} req.body.status
+ * @param {String} req.body.skills
+ * @param {String} req.body.contacts
+ * @return {Object} res {status: Number, newRow: Object}
+ */
+export async function getByUserId(req, res) {
+  await Job.findAll({
+    where: {
+      userId: req.query.userId,
+    },
+  }).then(jobs => res.status(200).json(jobs));
 }
 
-export async function getAll(req, res) {
-  const jobs = await Job.findAll();
-  res.status(200).json(jobs);
-}
-
-export async function getById(req, res) {
+export async function getByJobId(req, res) {
   const id = getIdFromUrlParam(req);
   const job = await Job.findByPk(id);
 
@@ -34,7 +39,7 @@ export async function getById(req, res) {
  * @param {String} req.body.company
  * @param {String} req.body.position
  * @param {Date} req.body.date
- * @param {String} req.body.jobStatus
+ * @param {String} req.body.status
  * @param {String} req.body.skills
  * @param {String} req.body.contacts
  * @return {Object} res {status: Number, newRow: Object}
@@ -47,9 +52,14 @@ export async function create(req, res) {
         `Bad request: id is determined by database and should not be provided`
       );
   }
-  // TODO(any): replace with db row columns.
-  const newRow = { id: Math.random(), ...req.body };
-  res.status(201).json({ newRow: newRow });
+
+  await Job.create(req.body)
+    .then(newRow => res.status(201).json(newRow))
+    .catch(err => {
+      res
+        .status(500)
+        .send(err.message || "An error occurred while creating new Job.");
+    });
 }
 
 /**
@@ -57,8 +67,8 @@ export async function create(req, res) {
  * @param {Object} req.body Request payload.
  * @param {String} req.body.company
  * @param {String} req.body.position
- * @param {Date} req.body.date
- * @param {String} req.body.jobStatus
+ * @param {Date} req.body.dateApplied
+ * @param {String} req.body.status
  * @param {String} req.body.skills
  * @param {String} req.body.contacts
  * @return {Object} res {status: Number, updatedRow: Object}
@@ -73,13 +83,17 @@ export async function update(req, res) {
         `Bad request: param ID (${id}) does not match body ID (${req.body.id}).`
       );
   }
-  // await Job.update(req.body, {
-  //   where: {
-  //     id: id,
-  //   },
-  // });
-  const updatedRow = req.body; // TODO(any): replace with db response.\
-  res.status(200).json({ status: 200, updatedRow: updatedRow });
+  await Job.update(req.body, {
+    where: {
+      id: id,
+    },
+  })
+    .then(numUpdatedRows => res.status(200).json(numUpdatedRows))
+    .catch(err => {
+      res
+        .status(500)
+        .send(err.message || "An error occurred while creating new Job.");
+    });
 }
 
 /**
@@ -87,22 +101,21 @@ export async function update(req, res) {
  * @param {*} req
  * @param {*} res
  */
-export async function removeAll(req, res) {
+export async function removeById(req, res) {
   const requestIds = req.body.ids;
-  console.log(requestIds);
-  // Job.destroy({
-  //   truncate: true,
-  // })
-  //   .then(numRowsDeleted => {
-  //     res.status(200).send(`${numRowsDeleted} Jobs removed successfully.`);
-  //   })
-  //   .catch(err => {
-  //     res
-  //       .status(500)
-  //       .send(err.message || "An error occurred while removing all Jobs.");
-  //   });
-  const deletedIds = ids; // TODO(any): replace with Db deleted IDs
-  res.status(200).json({ ids: deletedIds });
+  await Job.destroy({
+    where: {
+      id: requestIds,
+    },
+  })
+    .then(() => {
+      res.status(200).json({ ids: requestIds });
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send(err.message || "An error occurred while removing selected Jobs.");
+    });
 }
 
-export default { read, getAll, getById, create, update, removeAll };
+export default { getByUserId, getByJobId, create, update, removeById };

@@ -56,6 +56,8 @@ export const SETTINGS = ["Logout"];
 
 export const JOB_FORM_ITEMS = ["Company", "Position", "Skills", "Contacts"];
 
+export const USERS_ENDPOINT_URL = process.env.REACT_APP_USERS_ENDPOINT_URL;
+
 export const JOBS_ENDPOINT_URL = process.env.REACT_APP_JOBS_ENDPOINT_URL;
 
 export const DOMAIN = process.env.REACT_APP_AUTH0_DOMAIN;

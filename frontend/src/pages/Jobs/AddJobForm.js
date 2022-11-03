@@ -7,7 +7,7 @@ import JobForm from "pages/Jobs/JobForm";
  * Adds a new job application.
  * This will move to its own page eventually. Probably.
  */
-const AddJobForm = ({ handleCreateRow }) => {
+const AddJobForm = ({ userId, handleCreateRow }) => {
   const heading = "New Job Application";
   const formType = "add";
   return (
@@ -15,14 +15,14 @@ const AddJobForm = ({ handleCreateRow }) => {
       initialValues={{
         company: "",
         position: "",
-        date: dayjs(), // Same as date.now().
-        jobStatus: APPLICATION_STATUSES.applied,
+        dateApplied: dayjs(), // Same as date.now().
+        status: APPLICATION_STATUSES.applied,
         skills: "",
         contacts: "",
       }}
       onSubmit={(formData, { setSubmitting, resetForm }) => {
         const newRow = {
-          id: Math.random(),
+          userId: userId,
           ...formData,
         };
 

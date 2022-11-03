@@ -17,8 +17,8 @@ const EditJobForm = ({ handleUpdateRow, selectedRow }) => {
       initialValues={{
         company: selectedRow?.company ?? "",
         position: selectedRow?.position ?? "",
-        date: selectedRow?.date ?? dayjs(), // Same as date.now().
-        jobStatus: selectedRow?.jobStatus ?? APPLICATION_STATUSES.applied,
+        dateApplied: selectedRow?.dateApplied ?? dayjs(), // Same as date.now().
+        status: selectedRow?.status ?? APPLICATION_STATUSES.applied,
         skills: selectedRow?.skills ?? "",
         contacts: selectedRow?.contacts ?? "",
       }}

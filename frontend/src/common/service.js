@@ -3,12 +3,12 @@ import { JOBS_ENDPOINT_URL } from "common/constants";
 
 /**
  *
- * @param {*} email
+ * @param {*} userId
  * @returns
  */
-const getJobsData = async email => {
+const getJobsData = async userId => {
   const response = await axios.get(JOBS_ENDPOINT_URL, {
-    params: { userEmail: email },
+    params: { userId: userId },
   });
   if (response.status === 200) {
     return response.data;
@@ -24,7 +24,6 @@ const addJobRow = async newRow => {
   const response = await axios.post(JOBS_ENDPOINT_URL, newRow);
   switch (response.status) {
     case 201:
-    case 200:
       return response.data;
     default:
       throw new Error(
@@ -46,9 +45,7 @@ const updateJobRow = async updatedRow => {
     JOBS_ENDPOINT_URL + `/${updatedRow.id}`,
     updatedRow
   );
-  console.log(response);
   switch (response.status) {
-    case 201:
     case 200:
       return response.data;
     default:
@@ -56,7 +53,7 @@ const updateJobRow = async updatedRow => {
         `Bad response: 
         status: ${response.status} 
         from /jobs POST route
-        addJobRow() function`
+        updateJobRow() function`
       );
   }
 };
@@ -72,7 +69,6 @@ const deleteJobRows = async deleteIds => {
   });
   console.log(response);
   switch (response.status) {
-    case 201:
     case 200:
       return response.data;
     default:
@@ -80,7 +76,7 @@ const deleteJobRows = async deleteIds => {
         `Bad response: 
         status: ${response.status} 
         from /jobs POST route
-        addJobRow() function`
+        deleteJobRows() function`
       );
   }
 };

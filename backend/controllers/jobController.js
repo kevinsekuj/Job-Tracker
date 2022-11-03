@@ -101,7 +101,7 @@ export async function removeAll(req, res) {
   //       .status(500)
   //       .send(err.message || "An error occurred while removing all Jobs.");
   //   });
-  const deletedIds = ids; // TODO(any): replace with Db deleted IDs
+  const deletedIds = requestIds; // TODO(any): replace with Db deleted IDs
   res.status(200).json({ ids: deletedIds });
 }
 

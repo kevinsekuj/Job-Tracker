@@ -25,7 +25,6 @@ const SNACKBAR = {
  * The table component for Jobs page: displays jobs as rows.
  */
 const JobsTable = ({ rows, setRows }) => {
-  const { REACT_APP_JOBS_ENDPOINT_URL } = process.env;
   const [selectedRows, setSelectedRows] = useState([]);
   const [addJobDrawerIsOpen, setAddJobDrawerIsOpen] = useState(false);
   const [editJobDrawerState, setEditJobDrawerIsOpen] = useState(false);

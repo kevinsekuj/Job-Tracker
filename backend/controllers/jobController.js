@@ -47,6 +47,7 @@ export async function create(req, res) {
         `Bad request: id is determined by database and should not be provided`
       );
   }
+  // const data = await Job...
   // TODO(any): replace with db row columns.
   const newRow = { id: Math.random(), ...req.body };
   res.status(201).json({ newRow: newRow });

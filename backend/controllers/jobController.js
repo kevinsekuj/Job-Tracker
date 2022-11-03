@@ -42,7 +42,7 @@ export async function getById(req, res) {
 export async function create(req, res) {
   // TODO(any): replace with db row columns.
   const newRow = { id: Math.random(), ...req.body };
-  res.status(201).json({ status: 200, newRow: newRow });
+  res.status(201).json({ newRow: newRow });
 }
 
 /**

@@ -40,6 +40,13 @@ export async function getById(req, res) {
  * @return {Object} res {status: Number, newRow: Object}
  */
 export async function create(req, res) {
+  if (req.body.id) {
+    res
+      .status(400)
+      .send(
+        `Bad request: id is determined by database and should not be provided`
+      );
+  }
   // TODO(any): replace with db row columns.
   const newRow = { id: Math.random(), ...req.body };
   res.status(201).json({ newRow: newRow });

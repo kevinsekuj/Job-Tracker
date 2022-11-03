@@ -8,7 +8,7 @@ import { Formik } from "formik";
 /**
  * Adds a new job application.
  */
-const AddJobForm = ({ handleCreateRow }) => {
+const AddJobForm = ({ userId, handleCreateRow }) => {
   const heading = "New Job Application";
   const formType = "add";
   return (
@@ -16,13 +16,14 @@ const AddJobForm = ({ handleCreateRow }) => {
       initialValues={{
         company: "",
         position: "",
-        date: dayjs(), // Same as date.now().
-        jobStatus: APPLICATION_STATUSES.applied,
+        dateApplied: dayjs(), // Same as date.now().
+        status: APPLICATION_STATUSES.applied,
         skills: "",
         contacts: "",
       }}
       onSubmit={(formData, { setSubmitting, resetForm }) => {
         const newRow = {
+          userId: userId,
           ...formData,
         };
         handleCreateRow(newRow);

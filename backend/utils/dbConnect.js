@@ -26,6 +26,6 @@ db.Sequelize = Sequelize;
 db.sequelize = await connectToDb();
 
 defineModels(db.sequelize);
-addAssociations(db.sequelize);
+// addAssociations(db.sequelize);
 
 export { db };

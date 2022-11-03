@@ -19,7 +19,7 @@ const Main = () => {
 
   useEffect(() => {
     async function fetchInitialTableData() {
-      const { data } = await getRowData(user?.email);
+      const data = await getRowData(user?.sub);
 
       data.forEach(dataObject => {
         dataObject.skills?.split(",").forEach(skill => {
@@ -32,11 +32,11 @@ const Main = () => {
           }
         });
       });
-
+      
       setRows(data);
     }
     if (isAuthenticated) fetchInitialTableData();
-  }, [isAuthenticated, user?.email]);
+  }, [isAuthenticated, user?.sub]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>

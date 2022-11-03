@@ -8,6 +8,18 @@ import { addJobRow, deleteJobRows, updateJobRow } from "common/service";
 import { Box, Button, Chip, Drawer, Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import { DataGrid } from "@mui/x-data-grid";
+import { JOB_TABLE_COLUMN_STYLES } from "common/constants";
+import { useAuth0 } from "@auth0/auth0-react";
+import {
+  getRowData,
+  addJobRow,
+  deleteJobRows,
+  updateJobRow,
+} from "common/service";
+import { FormBox } from "pages/Jobs/index";
+import { forwardRef, useState } from "react";
+import { APPLICATION_FIELDS } from "../../common/constants";
+import { AddJobForm, EditJobForm } from "./index";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -17,6 +29,7 @@ const Alert = forwardRef(function Alert(props, ref) {
  * The table component for Jobs page: displays jobs as rows.
  */
 const JobsTable = ({ rows, setRows }) => {
+  const { user } = useAuth0();
   const [selectedRows, setSelectedRows] = useState([]);
   const [addJobDrawerIsOpen, setAddJobDrawerIsOpen] = useState(false);
   const [editJobDrawerState, setEditJobDrawerIsOpen] = useState(false);
@@ -87,7 +100,7 @@ const JobsTable = ({ rows, setRows }) => {
   const handleCreateRow = async userInputRow => {
     // TODO(dan): Input Validation for Create Row
     await addJobRow(userInputRow)
-      .then(({ newRow }) => {
+      .then(newRow => {
         setRows(rows.concat(newRow));
         setAddJobDrawerIsOpen(false);
         setSnackbarMessage(SNACKBAR.addSuccessMsg);
@@ -108,21 +121,9 @@ const JobsTable = ({ rows, setRows }) => {
   const handleUpdateRow = async userInputRow => {
     // TODO(dan): Input Validation for Create Row
     await updateJobRow(userInputRow)
-      .then(({ updatedRow }) => {
-        const rowsWithEdit = rows.map(row => {
-          if (row.id === updatedRow.id) {
-            return updatedRow;
-          }
-          return row;
-        });
-        const selectedRowsWithEdit = selectedRows.map(row => {
-          if (row.id === updatedRow.id) {
-            return updatedRow;
-          }
-          return row;
-        });
-        setRows(rowsWithEdit);
-        setSelectedRows(selectedRowsWithEdit);
+      .then(async () => {
+        const data = await getRowData(user?.sub);
+        setRows(data);
         setEditJobDrawerIsOpen(false);
         setSnackbarMessage(SNACKBAR.editSuccessMsg);
         setSnackbarSeverity(SNACKBAR.success);
@@ -133,6 +134,33 @@ const JobsTable = ({ rows, setRows }) => {
         setSnackbarSeverity(SNACKBAR.errorSeverity);
         setSnackbarIsOpen(true);
       });
+
+    // await updateJobRow(userInputRow)
+    // .then(() => {
+    //   const rowsWithEdit = rows.map(row => {
+    //     if (row.id === updatedRow.id) {
+    //       return updatedRow;
+    //     }
+    //     return row;
+    //   });
+    //   const selectedRowsWithEdit = selectedRows.map(row => {
+    //     if (row.id === updatedRow.id) {
+    //       return updatedRow;
+    //     }
+    //     return row;
+    //   });
+    //   setRows(rowsWithEdit);
+    //   setSelectedRows(selectedRowsWithEdit);
+    //   setEditJobDrawerIsOpen(false);
+    //   setSnackbarMessage(SNACKBAR.editSuccessMsg);
+    //   setSnackbarSeverity(SNACKBAR.success);
+    //   setSnackbarIsOpen(true);
+    // })
+    // .catch(err => {
+    //   setSnackbarMessage(SNACKBAR.errorMsg);
+    //   setSnackbarSeverity(SNACKBAR.errorSeverity);
+    //   setSnackbarIsOpen(true);
+    // });
   };
 
   /**
@@ -169,12 +197,12 @@ const JobsTable = ({ rows, setRows }) => {
       width: JOB_TABLE_COLUMN_STYLES.CELL_MD,
     },
     {
-      field: "date",
+      field: "dateApplied",
       headerName: APPLICATION_FIELDS.date,
       width: JOB_TABLE_COLUMN_STYLES.CELL_SM,
     },
     {
-      field: "jobStatus",
+      field: "status",
       headerName: APPLICATION_FIELDS.jobStatus,
       width: JOB_TABLE_COLUMN_STYLES.CELL_SM,
     },
@@ -183,13 +211,13 @@ const JobsTable = ({ rows, setRows }) => {
       headerName: APPLICATION_FIELDS.skills,
       width: JOB_TABLE_COLUMN_STYLES.CELL_LG,
       renderCell: cellValues => {
-        const skillsArray = cellValues.row.skills.split(",");
-        if (skillsArray.length === 1 && skillsArray[0] === "") {
+        const skillsArray = cellValues.row.skills?.split(",");
+        if (skillsArray?.length === 1 && skillsArray[0] === "") {
           return null;
         }
         return (
           <>
-            {skillsArray.map(skill => {
+            {skillsArray?.map(skill => {
               return <Chip key={skill} sx={{ mr: "0.5em" }} label={skill} />;
             })}
           </>
@@ -219,7 +247,7 @@ const JobsTable = ({ rows, setRows }) => {
           onClose={toggleAddDrawerIsOpen(false)}
         >
           <FormBox>
-            <AddJobForm handleCreateRow={handleCreateRow} />
+            <AddJobForm userId={user.sub} handleCreateRow={handleCreateRow} />
           </FormBox>
         </Drawer>
         <Button

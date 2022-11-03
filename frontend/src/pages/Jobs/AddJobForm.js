@@ -5,7 +5,6 @@ import JobForm from "pages/Jobs/JobForm";
 
 /**
  * Adds a new job application.
- * This will move to its own page eventually. Probably.
  */
 const AddJobForm = ({ handleCreateRow }) => {
   const heading = "New Job Application";
@@ -22,12 +21,8 @@ const AddJobForm = ({ handleCreateRow }) => {
       }}
       onSubmit={(formData, { setSubmitting, resetForm }) => {
         const newRow = {
-          id: Math.random(),
           ...formData,
         };
-
-        // TODO: send async request w payload here
-        // On successful response...
         handleCreateRow(newRow);
         setSubmitting(false);
         resetForm();

@@ -47,6 +47,7 @@ export async function create(req, res) {
         `Bad request: id is determined by database and should not be provided`
       );
   }
+  // const data = await Job...
   // TODO(any): replace with db row columns.
   const newRow = { id: Math.random(), ...req.body };
   res.status(201).json({ newRow: newRow });
@@ -101,7 +102,7 @@ export async function removeAll(req, res) {
   //       .status(500)
   //       .send(err.message || "An error occurred while removing all Jobs.");
   //   });
-  const deletedIds = ids; // TODO(any): replace with Db deleted IDs
+  const deletedIds = requestIds; // TODO(any): replace with Db deleted IDs
   res.status(200).json({ ids: deletedIds });
 }
 

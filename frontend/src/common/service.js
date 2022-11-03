@@ -25,9 +25,9 @@ const addJobRow = async newRow => {
   const response = await axios.post(JOBS_ENDPOINT_URL, newRow);
   switch (response.status) {
     case 201:
-      const date = response.data.newRow.date;
+      const date = response.data.dateApplied;
       if (date && typeof date === "string") {
-        response.data.newRow.date = formatDate(date);
+        response.data.dateApplied = formatDate(date);
       }
       return response.data;
     default:
@@ -57,7 +57,7 @@ const updateJobRow = async updatedRow => {
       throw new Error(
         `Bad response: 
         status: ${response.status} 
-        from /jobs POST route
+        from /jobs PUT route
         updateJobRow() function`
       );
   }
@@ -72,7 +72,6 @@ const deleteJobRows = async deleteIds => {
   const response = await axios.delete(JOBS_ENDPOINT_URL, {
     data: { ids: deleteIds },
   });
-  console.log(response);
   switch (response.status) {
     case 200:
       return response.data;
@@ -80,7 +79,7 @@ const deleteJobRows = async deleteIds => {
       throw new Error(
         `Bad response: 
         status: ${response.status} 
-        from /jobs POST route
+        from /jobs DELETE route
         deleteJobRows() function`
       );
   }

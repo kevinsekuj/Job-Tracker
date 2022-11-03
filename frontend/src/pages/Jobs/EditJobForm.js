@@ -1,13 +1,12 @@
+import JobForm from "pages/Jobs/JobForm";
+
 import { APPLICATION_STATUSES } from "common/constants";
+
 import dayjs from "dayjs";
 import { Formik } from "formik";
-import JobForm from "pages/Jobs/JobForm";
 
 /**
  * Edits an existing job application.
- * This will move to its own page eventually. Probably.
- *
- * can update single row??
  */
 const EditJobForm = ({ handleUpdateRow, selectedRow }) => {
   const heading = "Edit Job Application";
@@ -28,10 +27,6 @@ const EditJobForm = ({ handleUpdateRow, selectedRow }) => {
           id: selectedRow.id,
           ...formData,
         };
-
-        // TODO: send async request w payload here
-        // if err, do not update
-        // On successful response
         handleUpdateRow(newRow);
         setSubmitting(false);
         resetForm();

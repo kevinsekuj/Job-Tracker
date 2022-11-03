@@ -103,6 +103,7 @@ export async function update(req, res) {
  */
 export async function removeById(req, res) {
   const requestIds = req.body.ids;
+  
   await Job.destroy({
     where: {
       id: requestIds,

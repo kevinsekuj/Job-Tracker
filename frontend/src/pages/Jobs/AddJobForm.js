@@ -1,11 +1,12 @@
+import JobForm from "pages/Jobs/JobForm";
+
 import { APPLICATION_STATUSES } from "common/constants";
+
 import dayjs from "dayjs";
 import { Formik } from "formik";
-import JobForm from "pages/Jobs/JobForm";
 
 /**
  * Adds a new job application.
- * This will move to its own page eventually. Probably.
  */
 const AddJobForm = ({ userId, handleCreateRow }) => {
   const heading = "New Job Application";
@@ -25,9 +26,6 @@ const AddJobForm = ({ userId, handleCreateRow }) => {
           userId: userId,
           ...formData,
         };
-
-        // TODO: send async request w payload here
-        // On successful response...
         handleCreateRow(newRow);
         setSubmitting(false);
         resetForm();

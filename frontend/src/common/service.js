@@ -1,5 +1,6 @@
 import axios from "axios";
 import { JOBS_ENDPOINT_URL } from "common/constants";
+import formatDate from "common/utils";
 
 /**
  *
@@ -24,6 +25,10 @@ const addJobRow = async newRow => {
   const response = await axios.post(JOBS_ENDPOINT_URL, newRow);
   switch (response.status) {
     case 201:
+      const date = response.data.newRow.date;
+      if (date && typeof date === "string") {
+        response.data.newRow.date = formatDate(date);
+      }
       return response.data;
     default:
       throw new Error(

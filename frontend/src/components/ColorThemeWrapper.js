@@ -1,8 +1,9 @@
+import { useMemo, useState } from "react";
+
+import ColorModeContext from "common/contexts";
+
 import { Paper } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import ColorModeContext from "common/contexts";
-import * as React from "react";
-import { useMemo, useState } from "react";
 
 const ColorThemeWrapper = ({ children }) => {
   const [mode, setMode] = useState("light");
@@ -15,7 +16,7 @@ const ColorThemeWrapper = ({ children }) => {
     []
   );
 
-  const theme = React.useMemo(
+  const theme = useMemo(
     () =>
       createTheme({
         palette: {

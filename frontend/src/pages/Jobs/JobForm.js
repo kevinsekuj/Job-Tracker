@@ -1,3 +1,5 @@
+import { APPLICATION_STATUSES } from "common/constants";
+
 import {
   Button,
   FormControl,
@@ -10,7 +12,7 @@ import {
 } from "@mui/material";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { APPLICATION_STATUSES } from "common/constants";
+
 import { Field, Form } from "formik";
 
 const JobForm = ({
@@ -65,7 +67,6 @@ const JobForm = ({
             label="Status"
             value={values.status}
             onChange={event => {
-              console.log(event.target.value);
               setFieldValue("status", event.target.value, true);
             }}
           >

@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+
 import {
   BarElement,
   CategoryScale,
@@ -22,11 +23,6 @@ ChartJS.register(
 const TOP_FIVE_RESULTS_OFFSET = 5;
 
 const SkillsPage = ({ skillsMap, totalJobs }) => {
-  skillsMap.set("Python", 3);
-  skillsMap.set("JavaScript", 6);
-  skillsMap.set("Go", 2);
-  totalJobs += 3;
-
   const options = {
     scales: {
       y: {

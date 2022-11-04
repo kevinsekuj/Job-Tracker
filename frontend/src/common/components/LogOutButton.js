@@ -6,7 +6,7 @@ import { Button, createTheme, ThemeProvider } from "@mui/material";
 
 const theme = createTheme(NAV_BUTTON_THEME);
 
-const LogOutButton = () => {
+export default function LogOutButton() {
   const { logout } = useAuth0();
 
   return (
@@ -19,6 +19,4 @@ const LogOutButton = () => {
       </Button>
     </ThemeProvider>
   );
-};
-
-export default LogOutButton;
+}

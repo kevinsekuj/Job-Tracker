@@ -1,12 +1,14 @@
 import { useContext, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
+import PropTypes from "prop-types";
+
 import { useAuth0 } from "@auth0/auth0-react";
 
 import LoginButton from "common/components/LoginButton";
 import LogOutButton from "common/components/LogOutButton";
 
-import { GITHUB_REPOSITORY_URL, NAVBAR_ITEMS } from "common/constants.js";
+import { GITHUB_REPOSITORY_URL, NAVBAR_ITEMS } from "common/constants";
 import ColorModeContext from "common/contexts";
 
 import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -26,7 +28,7 @@ import {
   useTheme,
 } from "@mui/material";
 
-function Navbar() {
+export default function Navbar() {
   const { isAuthenticated, user } = useAuth0();
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
@@ -171,4 +173,10 @@ function NavbarMenu({ sx }) {
   );
 }
 
-export default Navbar;
+NavbarMenu.propTypes = {
+  sx: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
+};
+
+NavbarMenu.defaultProps = {
+  sx: undefined,
+};

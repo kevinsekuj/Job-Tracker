@@ -61,3 +61,6 @@ export const JOBS_ENDPOINT_URL = process.env.REACT_APP_JOBS_ENDPOINT_URL;
 export const DOMAIN = process.env.REACT_APP_AUTH0_DOMAIN;
 
 export const CLIENT_ID = process.env.REACT_APP_AUTH0_CLIENT_ID;
+
+export const GITHUB_REPOSITORY_URL =
+  "https://github.com/kevinsekuj/Job-Tracker";

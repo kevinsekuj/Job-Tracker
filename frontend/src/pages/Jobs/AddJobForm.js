@@ -1,12 +1,16 @@
+import PropTypes from "prop-types";
+
+import JobForm from "pages/Jobs/JobForm";
+
 import { APPLICATION_STATUSES } from "common/constants";
+
 import dayjs from "dayjs";
 import { Formik } from "formik";
-import JobForm from "pages/Jobs/JobForm";
 
 /**
  * Adds a new job application.
  */
-const AddJobForm = ({ handleCreateRow }) => {
+export default function AddJobForm({ handleCreateRow }) {
   const heading = "New Job Application";
   const formType = "add";
   return (
@@ -39,6 +43,8 @@ const AddJobForm = ({ handleCreateRow }) => {
       )}
     </Formik>
   );
-};
+}
 
-export default AddJobForm;
+AddJobForm.propTypes = {
+  handleCreateRow: PropTypes.func.isRequired,
+};

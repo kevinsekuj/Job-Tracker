@@ -1,6 +1,19 @@
+import { useContext, useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
+
+import PropTypes from "prop-types";
+
 import { useAuth0 } from "@auth0/auth0-react";
+
+import LoginButton from "common/components/LoginButton";
+import LogOutButton from "common/components/LogOutButton";
+
+import { GITHUB_REPOSITORY_URL, NAVBAR_ITEMS } from "common/constants";
+import ColorModeContext from "common/contexts";
+
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import MenuIcon from "@mui/icons-material/Menu";
 import WorkIcon from "@mui/icons-material/Work";
 import {
@@ -14,14 +27,8 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import LoginButton from "common/components/LoginButton";
-import LogOutButton from "common/components/LogOutButton";
-import { NAVBAR_ITEMS } from "common/constants.js";
-import ColorModeContext from "common/contexts";
-import { useContext, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
 
-const Navbar = () => {
+export default function Navbar() {
   const { isAuthenticated, user } = useAuth0();
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
@@ -116,19 +123,28 @@ const Navbar = () => {
           )}
         </Box>
 
-        <IconButton onClick={colorMode.toggleColorMode} color="inherit">
-          {theme.palette.mode === "dark" ? (
-            <Brightness7Icon />
-          ) : (
-            <Brightness4Icon />
-          )}
-        </IconButton>
+        <Box sx={{ display: "flex" }}>
+          <IconButton onClick={colorMode.toggleColorMode} color="inherit">
+            {theme.palette.mode === "dark" ? (
+              <Brightness7Icon />
+            ) : (
+              <Brightness4Icon />
+            )}
+          </IconButton>
+          <a
+            href={GITHUB_REPOSITORY_URL}
+            id="github-icon"
+            style={{ paddingTop: "7px" }}
+          >
+            <GitHubIcon />
+          </a>
+        </Box>
       </Box>
     </AppBar>
   );
-};
+}
 
-const NavbarMenu = ({ sx }) => {
+function NavbarMenu({ sx }) {
   const [anchorElement, setAnchorElement] = useState(null);
   const isOpen = !!anchorElement;
 
@@ -155,6 +171,12 @@ const NavbarMenu = ({ sx }) => {
       </Menu>
     </Box>
   );
+}
+
+NavbarMenu.propTypes = {
+  sx: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
 };
 
-export default Navbar;
+NavbarMenu.defaultProps = {
+  sx: undefined,
+};

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { JOBS_ENDPOINT_URL } from "common/constants";
+import formatDate from "common/utils";
 
 /**
  *
@@ -13,6 +14,7 @@ const getJobsData = async email => {
   if (response.status === 200) {
     return response.data;
   }
+  throw new Error(response.status);
 };
 
 /**
@@ -22,9 +24,15 @@ const getJobsData = async email => {
  */
 const addJobRow = async newRow => {
   const response = await axios.post(JOBS_ENDPOINT_URL, newRow);
+  const { date } = response.data.newRow;
+
   switch (response.status) {
     case 201:
     case 200:
+      if (date && typeof date === "string") {
+        response.data.newRow.date = formatDate(date);
+      }
+
       return response.data;
     default:
       throw new Error(
@@ -43,10 +51,9 @@ const addJobRow = async newRow => {
  */
 const updateJobRow = async updatedRow => {
   const response = await axios.put(
-    JOBS_ENDPOINT_URL + `/${updatedRow.id}`,
+    `${JOBS_ENDPOINT_URL}/${updatedRow.id}`,
     updatedRow
   );
-  console.log(response);
   switch (response.status) {
     case 201:
     case 200:
@@ -70,7 +77,6 @@ const deleteJobRows = async deleteIds => {
   const response = await axios.delete(JOBS_ENDPOINT_URL, {
     data: { ids: deleteIds },
   });
-  console.log(response);
   switch (response.status) {
     case 201:
     case 200:

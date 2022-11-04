@@ -6,3 +6,10 @@ body,
   margin: 0;
   padding: 0;
 }
+
+#github-icon,
+#github-icon:visited,
+#github-icon:hover,
+#github-icon:active {
+  color: grey;
+}

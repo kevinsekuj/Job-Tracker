@@ -1,14 +1,19 @@
+import PropTypes from "prop-types";
+
+import JobForm from "pages/Jobs/JobForm";
+
 import { APPLICATION_STATUSES } from "common/constants";
+
 import dayjs from "dayjs";
 import { Formik } from "formik";
-import JobForm from "pages/Jobs/JobForm";
 
 /**
  * Edits an existing job application.
  */
-const EditJobForm = ({ handleUpdateRow, selectedRow }) => {
+export default function EditJobForm({ handleUpdateRow, selectedRow }) {
   const heading = "Edit Job Application";
   const formType = "edit";
+
   return (
     <Formik
       initialValues={{
@@ -41,6 +46,17 @@ const EditJobForm = ({ handleUpdateRow, selectedRow }) => {
       )}
     </Formik>
   );
-};
+}
 
-export default EditJobForm;
+EditJobForm.propTypes = {
+  handleUpdateRow: PropTypes.func.isRequired,
+  selectedRow: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    company: PropTypes.string,
+    position: PropTypes.string,
+    date: PropTypes.string,
+    jobStatus: PropTypes.string,
+    skills: PropTypes.string,
+    contacts: PropTypes.string,
+  }).isRequired,
+};

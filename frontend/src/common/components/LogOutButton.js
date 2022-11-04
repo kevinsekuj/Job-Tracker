@@ -1,10 +1,12 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { Button, createTheme, ThemeProvider } from "@mui/material";
 import { NAV_BUTTON_THEME } from "common/constants";
+
+import { useAuth0 } from "@auth0/auth0-react";
+
+import { Button, createTheme, ThemeProvider } from "@mui/material";
 
 const theme = createTheme(NAV_BUTTON_THEME);
 
-const LogOutButton = () => {
+export default function LogOutButton() {
   const { logout } = useAuth0();
 
   return (
@@ -17,6 +19,4 @@ const LogOutButton = () => {
       </Button>
     </ThemeProvider>
   );
-};
-
-export default LogOutButton;
+}

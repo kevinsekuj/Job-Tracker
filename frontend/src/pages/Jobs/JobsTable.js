@@ -1,36 +1,45 @@
+import { forwardRef, useState } from "react";
+
+import PropTypes from "prop-types";
+
+import AddJobForm from "pages/Jobs/AddJobForm";
+import EditJobForm from "pages/Jobs/EditJobForm";
+import FormBox from "pages/Jobs/FormBox";
+
+import { APPLICATION_FIELDS, JOB_TABLE_COLUMN_STYLES } from "common/constants";
+import { addJobRow, deleteJobRows, updateJobRow } from "common/service";
+
 import { Box, Button, Chip, Drawer, Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import { DataGrid } from "@mui/x-data-grid";
-import { JOB_TABLE_COLUMN_STYLES } from "common/constants";
-import { addJobRow, deleteJobRows, updateJobRow } from "common/service";
-import { FormBox } from "pages/Jobs/index";
-import { forwardRef, useState } from "react";
-import { APPLICATION_FIELDS } from "../../common/constants";
-import { AddJobForm, EditJobForm } from "./index";
 
-const Alert = forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
-const SNACKBAR = {
-  successSeverity: "success",
-  errorSeverity: "error",
-  addSuccessMsg: "Added job.",
-  editSuccessMsg: "Updated job.",
-  deleteSuccessMsg: "Deleted job(s).",
-  errorMsg: "Oops, something went wrong. Please try again later.",
-};
+const Alert = forwardRef((props, ref) => (
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+));
 
 /**
  * The table component for Jobs page: displays jobs as rows.
  */
-const JobsTable = ({ rows, setRows }) => {
+export default function JobsTable({ rows, setRows }) {
   const [selectedRows, setSelectedRows] = useState([]);
   const [addJobDrawerIsOpen, setAddJobDrawerIsOpen] = useState(false);
   const [editJobDrawerState, setEditJobDrawerIsOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
+
+  const SNACKBAR = {
+    successSeverity: "success",
+    errorSeverity: "error",
+    addSuccessMsg: "Added job.",
+    editSuccessMsg: "Updated job.",
+    deleteSuccessMsg:
+      selectedRows.length > 1
+        ? `Deleted ${selectedRows.length} job(s).`
+        : "Deleted job.",
+    errorMsg: "Oops, something went wrong. Please try again later.",
+  };
 
   /**
    *
@@ -84,7 +93,7 @@ const JobsTable = ({ rows, setRows }) => {
     // TODO(dan): Input Validation for Create Row
     await addJobRow(userInputRow)
       .then(({ newRow }) => {
-        setRows([newRow, ...rows]);
+        setRows(rows.concat(newRow));
         setAddJobDrawerIsOpen(false);
         setSnackbarMessage(SNACKBAR.addSuccessMsg);
         setSnackbarSeverity(SNACKBAR.successSeverity);
@@ -185,9 +194,9 @@ const JobsTable = ({ rows, setRows }) => {
         }
         return (
           <>
-            {skillsArray.map(skill => {
-              return <Chip key={skill} sx={{ mr: "0.5em" }} label={skill} />;
-            })}
+            {skillsArray.map(skill => (
+              <Chip key={skill} sx={{ mr: "0.5em" }} label={skill} />
+            ))}
           </>
         );
       },
@@ -273,14 +282,28 @@ const JobsTable = ({ rows, setRows }) => {
           checkboxSelection
           onSelectionModelChange={ids => {
             const selectedIDs = new Set(ids);
-            const selectedRows = rows.filter(row => selectedIDs.has(row.id));
-            setSelectedRows(selectedRows);
+            const userSelectedRows = rows.filter(row =>
+              selectedIDs.has(row.id)
+            );
+            setSelectedRows(userSelectedRows);
           }}
         />
         <pre>{JSON.stringify(selectedRows, null, 2)}</pre>
       </Box>
     </>
   );
-};
+}
 
-export default JobsTable;
+JobsTable.propTypes = {
+  rows: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      company: PropTypes.string,
+      date: PropTypes.string,
+      skills: PropTypes.string,
+      jobStatus: PropTypes.string,
+      position: PropTypes.string,
+    })
+  ).isRequired,
+  setRows: PropTypes.func.isRequired,
+};

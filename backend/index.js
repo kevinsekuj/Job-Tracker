@@ -11,6 +11,7 @@ import HTTPError from "./utils/error.js";
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static("views/build"));
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
@@ -35,16 +36,17 @@ try {
   process.exit(1);
 }
 
-import users from "./routes/users.js";
 import companies from "./routes/companies.js";
-import skills from "./routes/skills.js";
 import contacts from "./routes/contacts.js";
 import jobs from "./routes/jobs.js";
-app.use("/users", users);
-app.use("/companies", companies);
-app.use("/skills", skills);
-app.use("/contacts", contacts);
-app.use("/jobs", jobs);
+import skills from "./routes/skills.js";
+import users from "./routes/users.js";
+
+app.use("/api/users", users);
+app.use("/api/companies", companies);
+app.use("/api/skills", skills);
+app.use("/api/contacts", contacts);
+app.use("/api/jobs", jobs);
 
 app.all("*", (_req, _res, next) => {
   next(new HTTPError("Resource not found.", 404));

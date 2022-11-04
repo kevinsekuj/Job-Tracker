@@ -12,17 +12,24 @@ const getJobsData = async userId => {
     params: { userId: userId },
   });
 
+  let data;
   if (response.status === 200) {
-    response.data.forEach(row => {
+    data = response.data.map(row => {
       // Apply nice formatting to date strings.
+      const rowData = { ...row };
+
       const date = row.dateApplied;
       if (date && typeof date === "string") {
-        row.dateApplied = formatDate(date);
+        rowData.dateApplied = formatDate(date);
       }
+
+      return rowData;
     });
 
-    return response.data;
+    return data;
   }
+
+  return [];
 };
 
 /**
@@ -32,9 +39,10 @@ const getJobsData = async userId => {
  */
 const addJobRow = async newRow => {
   const response = await axios.post(JOBS_ENDPOINT_URL, newRow);
+  let date;
   switch (response.status) {
     case 201:
-      const date = response.data.dateApplied;
+      date = response.data.dateApplied;
       if (date && typeof date === "string") {
         response.data.dateApplied = formatDate(date);
       }
@@ -56,7 +64,7 @@ const addJobRow = async newRow => {
  */
 const updateJobRow = async updatedRow => {
   const response = await axios.put(
-    JOBS_ENDPOINT_URL + `/${updatedRow.id}`,
+    `${JOBS_ENDPOINT_URL}/${updatedRow.id}`,
     updatedRow
   );
   switch (response.status) {

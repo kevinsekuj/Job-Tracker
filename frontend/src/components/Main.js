@@ -8,11 +8,11 @@ import Unauthorized from "common/components/Unauthorized";
 import Navbar from "components/Navbar";
 import { ContactsPage, JobsPage, SkillsPage } from "pages/index";
 
-import { getRowData } from "common/service.js";
+import { getRowData } from "common/service";
 
 import { Box } from "@mui/material";
 
-const Main = () => {
+export default function Main() {
   const { isAuthenticated, isLoading, user } = useAuth0();
   const [rows, setRows] = useState([]);
   const skillsMap = useRef(new Map());
@@ -27,7 +27,7 @@ const Main = () => {
           const processedSkill = skill.trim();
 
           if (skillsMap.current.has(processedSkill)) {
-            skillsMap[processedSkill]++;
+            skillsMap[processedSkill] += 1;
           } else {
             skillsMap.current.set(processedSkill, 1);
           }
@@ -78,6 +78,4 @@ const Main = () => {
       </Router>
     </div>
   );
-};
-
-export default Main;
+}

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useMemo, useState } from "react";
 
 import ColorModeContext from "common/contexts";
@@ -5,7 +6,7 @@ import ColorModeContext from "common/contexts";
 import { Paper } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-const ColorThemeWrapper = ({ children }) => {
+export default function ColorThemeWrapper({ children }) {
   const [mode, setMode] = useState("light");
   const colorMode = useMemo(
     () => ({
@@ -35,6 +36,12 @@ const ColorThemeWrapper = ({ children }) => {
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
+}
+
+ColorThemeWrapper.propTypes = {
+  children: PropTypes.node,
 };
 
-export default ColorThemeWrapper;
+ColorThemeWrapper.defaultProps = {
+  children: undefined,
+};

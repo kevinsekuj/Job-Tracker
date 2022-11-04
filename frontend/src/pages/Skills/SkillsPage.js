@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 import { Box, Typography } from "@mui/material";
 
 import {
@@ -22,7 +24,7 @@ ChartJS.register(
 
 const TOP_FIVE_RESULTS_OFFSET = 5;
 
-const SkillsPage = ({ skillsMap, totalJobs }) => {
+export default function SkillsPage({ skillsMap, totalJobs }) {
   const options = {
     scales: {
       y: {
@@ -84,6 +86,9 @@ const SkillsPage = ({ skillsMap, totalJobs }) => {
       </Box>
     </Box>
   );
-};
+}
 
-export default SkillsPage;
+SkillsPage.propTypes = {
+  skillsMap: PropTypes.instanceOf(Map).isRequired,
+  totalJobs: PropTypes.number.isRequired,
+};

@@ -1,6 +1,6 @@
 import { Alert, AlertTitle, Box } from "@mui/material";
 
-const Unauthorized = () => {
+export default function Unauthorized() {
   return (
     <Box sx={{ margin: "auto" }}>
       <Alert severity="info">
@@ -9,6 +9,4 @@ const Unauthorized = () => {
       </Alert>
     </Box>
   );
-};
-
-export default Unauthorized;
+}

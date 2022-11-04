@@ -6,3 +6,17 @@ body,
   margin: 0;
   padding: 0;
 }
+
+html,
+body,
+#root,
+#root > div {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#github-icon {
+  text-decoration: none;
+  color: grey;
+}

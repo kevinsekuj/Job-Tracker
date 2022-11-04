@@ -52,7 +52,7 @@ const JobForm = ({
           <DesktopDatePicker
             label="Date Applied"
             value={values.dateApplied}
-            onChange={value => setFieldValue("date", value, true)}
+            onChange={value => setFieldValue("dateApplied", value, true)}
             renderInput={params => <TextField {...params} fullWidth />}
             disableFuture
           />

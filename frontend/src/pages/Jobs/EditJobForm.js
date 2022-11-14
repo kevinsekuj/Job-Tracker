@@ -29,6 +29,10 @@ export default function EditJobForm({ handleUpdateRow, selectedRow }) {
           id: selectedRow.id,
           ...formData,
         };
+        newRow.skills = newRow.skills.split(",");
+        newRow.skills.forEach((skill, index) => {
+          newRow.skills[index] = skill.trim();
+        });
         handleUpdateRow(newRow);
         setSubmitting(false);
         resetForm();

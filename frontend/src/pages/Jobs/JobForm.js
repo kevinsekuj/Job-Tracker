@@ -84,7 +84,7 @@ export default function JobForm({
         </Grid>
         <Grid item>
           <Field
-            label="Skills"
+            label="Skills (comma-separated)"
             name="skills"
             type="input"
             fullWidth

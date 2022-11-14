@@ -5,14 +5,8 @@ const { Job } = db.sequelize.models;
 
 /**
  * READ jobs filtered by userId, response provides filtered rows.
- * @param {Object} req.body Request payload.
- * @param {String} req.body.company
- * @param {String} req.body.position
- * @param {Date} req.body.date
- * @param {String} req.body.status
- * @param {String} req.body.skills
- * @param {String} req.body.contacts
- * @return {Object} res {status: Number, newRow: Object}
+ * @param {Object} req.query Request query.
+ * @return {Object} res {status: Number, data: Arra<Object>}
  */
 export async function getByUserId(req, res) {
   await Job.findAll({
@@ -36,13 +30,14 @@ export async function getByJobId(req, res) {
 /**
  * CREATE job, response provides new row columns with (new) associated id.
  * @param {Object} req.body Request payload.
+ * @param {String} req.body.userId
  * @param {String} req.body.company
  * @param {String} req.body.position
  * @param {Date} req.body.date
  * @param {String} req.body.status
  * @param {Array<String>} req.body.skills
  * @param {String} req.body.contacts
- * @return {Object} res {status: Number, newRow: Object}
+ * @return {Object} res {status: Number, data: Object}
  */
 export async function create(req, res) {
   if (req.body.id) {
@@ -63,15 +58,16 @@ export async function create(req, res) {
 }
 
 /**
- * UPDATE job, response provides updated row columns.
+ * UPDATE job, response provides number of updated rows and the updated rows themselves.
  * @param {Object} req.body Request payload.
+ * @param {String} req.body.userId
  * @param {String} req.body.company
  * @param {String} req.body.position
  * @param {Date} req.body.dateApplied
  * @param {String} req.body.status
  * @param {String} req.body.skills
  * @param {String} req.body.contacts
- * @return {Object} res {status: Number, updatedRow: Object}
+ * @return {Object} res {status: Number, data: Array<Number, Array<Object>>}
  */
 export async function update(req, res) {
   const id = getIdFromUrlParam(req);
@@ -87,19 +83,21 @@ export async function update(req, res) {
     where: {
       id: id,
     },
+    returning: true,
   })
-    .then(numUpdatedRows => res.status(200).json(numUpdatedRows))
+    .then(resultArray => res.status(200).json(resultArray))
     .catch(err => {
       res
         .status(500)
-        .send(err.message || "An error occurred while creating new Job.");
+        .send(err.message || "An error occurred while updating Job.");
     });
 }
 
 /**
- *
- * @param {*} req
- * @param {*} res
+ * DELETE jobs, response provides number of deleted rows
+ * @param {Object} req.body Request payload.
+ * @param {Array<Number>} req.body.ids
+ * @return {Object} res {status: Number, data: Object}
  */
 export async function removeById(req, res) {
   const requestIds = req.body.ids;

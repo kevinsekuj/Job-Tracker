@@ -5,14 +5,12 @@ const router = Router();
 
 router
   .route("/")
-  .get(contact.getAll)
+  .get(contact.getByUserId)
   .post(contact.create)
-  .delete(contact.removeAll);
+  .delete(contact.removeById);
 
 router
   .route("/:id")
-  .get(contact.getById)
-  .put(contact.update)
-  .delete(contact.remove);
+  .put(contact.update);
 
 export default router;

@@ -20,7 +20,7 @@ export default function EditJobForm({ handleUpdateRow, selectedRow }) {
         position: selectedRow?.position ?? "",
         dateApplied: selectedRow?.dateApplied ?? dayjs(), // Same as date.now().
         status: selectedRow?.status ?? APPLICATION_STATUSES.applied,
-        skills: selectedRow?.skills ?? "",
+        skills: selectedRow?.skills.join(", ") ?? "",
         contacts: selectedRow?.contacts ?? "",
       }}
       onSubmit={(formData, { setSubmitting, resetForm }) => {

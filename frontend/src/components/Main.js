@@ -24,11 +24,7 @@ export default function Main() {
       data.forEach(dataObject => {
         // Count skill occurrences.
         dataObject.skills?.forEach(skill => {
-          if (skillsMap.current.has(skill)) {
-            skillsMap[skill] += 1;
-          } else {
-            skillsMap.current.set(skill, 1);
-          }
+          skillsMap.current.set(skill, skillsMap.current.get(skill) + 1 || 1);
         });
       });
 

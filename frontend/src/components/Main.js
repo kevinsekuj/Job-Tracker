@@ -20,18 +20,19 @@ export default function Main() {
   useEffect(() => {
     async function fetchInitialTableData() {
       const data = await getRowData(user?.sub);
-
-      data.forEach(dataObject => {
-        // Count skill occurrences.
-        dataObject.skills?.forEach(skill => {
-          skillsMap.current.set(skill, skillsMap.current.get(skill) + 1 || 1);
-        });
-      });
-
       setRows(data);
     }
     if (isAuthenticated) fetchInitialTableData();
   }, [isAuthenticated, user?.sub]);
+
+  // Count skill occurrences when rows are updated.
+  useEffect(() => {
+    rows.forEach(row => {
+      row.skills?.forEach(skill => {
+        skillsMap.current.set(skill, skillsMap.current.get(skill) + 1 || 1);
+      });
+    });
+  }, [rows]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>

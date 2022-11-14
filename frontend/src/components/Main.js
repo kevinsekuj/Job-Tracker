@@ -27,6 +27,7 @@ export default function Main() {
 
   // Count skill occurrences when rows are updated.
   useEffect(() => {
+    skillsMap.current.clear();
     rows.forEach(row => {
       row.skills?.forEach(skill => {
         skillsMap.current.set(skill, skillsMap.current.get(skill) + 1 || 1);

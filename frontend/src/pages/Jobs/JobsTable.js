@@ -210,7 +210,7 @@ export default function JobsTable({ rows, setRows }) {
       headerName: APPLICATION_FIELDS.skills,
       width: JOB_TABLE_COLUMN_STYLES.CELL_LG,
       renderCell: cellValues => {
-        const skillsArray = cellValues.row.skills?.split(",");
+        const skillsArray = cellValues.row.skills;
         if (skillsArray?.length === 1 && skillsArray[0] === "") {
           return null;
         }

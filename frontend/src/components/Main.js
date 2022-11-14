@@ -23,13 +23,11 @@ export default function Main() {
 
       data.forEach(dataObject => {
         // Count skill occurrences.
-        dataObject.skills?.split(",").forEach(skill => {
-          const processedSkill = skill.trim();
-
-          if (skillsMap.current.has(processedSkill)) {
-            skillsMap[processedSkill] += 1;
+        dataObject.skills?.forEach(skill => {
+          if (skillsMap.current.has(skill)) {
+            skillsMap[skill] += 1;
           } else {
-            skillsMap.current.set(processedSkill, 1);
+            skillsMap.current.set(skill, 1);
           }
         });
       });

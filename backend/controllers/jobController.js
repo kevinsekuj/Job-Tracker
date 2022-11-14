@@ -40,7 +40,7 @@ export async function getByJobId(req, res) {
  * @param {String} req.body.position
  * @param {Date} req.body.date
  * @param {String} req.body.status
- * @param {String} req.body.skills
+ * @param {Array<String>} req.body.skills
  * @param {String} req.body.contacts
  * @return {Object} res {status: Number, newRow: Object}
  */

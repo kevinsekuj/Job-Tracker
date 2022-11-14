@@ -32,6 +32,9 @@ const Job = sequelize => {
           },
         },
       },
+      skills: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+      },
       status: {
         type: DataTypes.STRING,
         isIn: [APPLICATION_STATUSES],

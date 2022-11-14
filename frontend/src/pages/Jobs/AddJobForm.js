@@ -27,6 +27,10 @@ export default function AddJobForm({ userId, handleCreateRow }) {
           userId: userId,
           ...formData,
         };
+        newRow.skills = newRow.skills.split(",");
+        newRow.skills.forEach((skill, index) => {
+          newRow.skills[index] = skill.trim();
+        });
         handleCreateRow(newRow);
         setSubmitting(false);
         resetForm();

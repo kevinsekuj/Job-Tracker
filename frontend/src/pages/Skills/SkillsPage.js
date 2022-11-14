@@ -30,6 +30,12 @@ export default function SkillsPage({ skillsMap, totalJobs }) {
       y: {
         min: 0,
         max: totalJobs,
+        ticks: {
+          stepSize: totalJobs / 10,
+          callback: function (value) {
+            return `${Math.round((value / totalJobs) * 100)}%`;
+          },
+        },
       },
       x: {},
     },
@@ -78,7 +84,7 @@ export default function SkillsPage({ skillsMap, totalJobs }) {
             .map(element => (
               <Typography key={element}>
                 <strong>{element[0]}</strong> appeared in{" "}
-                <strong>{Math.floor((element[1] / totalJobs) * 100)}</strong>%
+                <strong>{((element[1] / totalJobs) * 100).toFixed(1)}</strong>%
                 of your job applications.
               </Typography>
             ))}

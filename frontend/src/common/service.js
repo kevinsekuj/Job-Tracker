@@ -1,6 +1,6 @@
 import axios from "axios";
 import { JOBS_ENDPOINT_URL } from "common/constants";
-import formatDate from "common/utils";
+import { formatDate } from "./utils";
 
 /**
  *

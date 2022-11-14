@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import JobForm from "pages/Jobs/JobForm";
 
 import { APPLICATION_STATUSES } from "common/constants";
+import { processSkills } from "common/utils";
 
 import dayjs from "dayjs";
 import { Formik } from "formik";
@@ -27,10 +28,7 @@ export default function AddJobForm({ userId, handleCreateRow }) {
           userId: userId,
           ...formData,
         };
-        newRow.skills = newRow.skills.split(",");
-        newRow.skills.forEach((skill, index) => {
-          newRow.skills[index] = skill.trim();
-        });
+        newRow.skills = processSkills(newRow.skills);
         handleCreateRow(newRow);
         setSubmitting(false);
         resetForm();

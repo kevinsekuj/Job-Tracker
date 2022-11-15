@@ -28,8 +28,7 @@ try {
 }
 // Drop database tables if needed and synchronize.
 try {
-  const drop_and_resync = process.env.NODE_ENV !== "production" ? true : false;
-  await sequelize.sync({ force: drop_and_resync });
+  await sequelize.sync({ force: process.env.NODE_ENV !== "production" });
   console.log("Synced database.");
 } catch (error) {
   console.error("Failed to sync database: " + error.message);

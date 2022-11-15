@@ -4,7 +4,7 @@ export function formatDate(dateString) {
   const result = dateString?.split(SQL_RESPONSE_DELINEATOR)[0]?.split("-");
 
   if (result && Array.isArray(result)) {
-    const [month, day, year] = result;
+    const [year, month, day] = result;
     return `${month}-${day}-${year}`;
   }
 

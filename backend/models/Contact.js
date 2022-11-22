@@ -42,7 +42,7 @@ const Contact = sequelize => {
           +91 (123) 456-7890
           */
           isInvalidPhoneNumber(number) {
-            if (!/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(number)) {
+            if (number && !/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(number)) {
               throw new Error("Invalid phone number format.");
             }
           }

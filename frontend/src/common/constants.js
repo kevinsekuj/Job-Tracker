@@ -22,7 +22,21 @@ export const APPLICATION_STATUSES = {
   rip: "Rejected",
 };
 
+export const CONTACT_FIELDS = {
+  id: "ID",
+  firstName: "First Name",
+  lastName: "Last Name",
+  email: "Email",
+  phoneNumber: "Phone Number",
+};
+
 export const JOB_TABLE_COLUMN_STYLES = {
+  CELL_SM: 200,
+  CELL_MD: 300,
+  CELL_LG: 400,
+};
+
+export const CONTACT_TABLE_COLUMN_STYLES = {
   CELL_SM: 200,
   CELL_MD: 300,
   CELL_LG: 400,
@@ -56,9 +70,10 @@ export const SETTINGS = ["Logout"];
 
 export const JOB_FORM_ITEMS = ["Company", "Position", "Skills", "Contacts"];
 
-export const USERS_ENDPOINT_URL = process.env.REACT_APP_USERS_ENDPOINT_URL;
-
 export const JOBS_ENDPOINT_URL = process.env.REACT_APP_JOBS_ENDPOINT_URL;
+
+export const CONTACTS_ENDPOINT_URL =
+  process.env.REACT_APP_CONTACTS_ENDPOINT_URL;
 
 export const DOMAIN = process.env.REACT_APP_AUTH0_DOMAIN;
 

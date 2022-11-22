@@ -1,5 +1,5 @@
 import axios from "axios";
-import { JOBS_ENDPOINT_URL } from "common/constants";
+import { JOBS_ENDPOINT_URL, CONTACTS_ENDPOINT_URL } from "common/constants";
 import { formatDate } from "./utils";
 
 /**
@@ -102,4 +102,91 @@ const deleteJobRows = async deleteIds => {
   }
 };
 
-export { getJobsData as getRowData, addJobRow, updateJobRow, deleteJobRows };
+/**
+ *
+ * @param {*} userId
+ * @returns
+ */
+const getContactsData = async userId => {
+  const response = await axios.get(CONTACTS_ENDPOINT_URL, {
+    params: { userId: userId },
+  });
+
+  return response.data;
+};
+
+/**
+ *
+ * @param {*} newRow
+ * @returns
+ */
+const addContactRow = async newRow => {
+  const response = await axios.post(CONTACTS_ENDPOINT_URL, newRow);
+  switch (response.status) {
+    case 201:
+      return response.data;
+    default:
+      throw new Error(
+        `Bad response: 
+        status: ${response.status} 
+        from /contacts POST route
+        addContactRow() function`
+      );
+  }
+};
+
+/**
+ *
+ * @param {Number} updatedRow
+ * @returns
+ */
+const updateContactRow = async updatedRow => {
+  const response = await axios.put(
+    `${CONTACTS_ENDPOINT_URL}/${updatedRow.id}`,
+    updatedRow
+  );
+  switch (response.status) {
+    case 200:
+      return response.data;
+    default:
+      throw new Error(
+        `Bad response: 
+        status: ${response.status} 
+        from /contacts PUT route
+        updateContactRow() function`
+      );
+  }
+};
+
+/**
+ *
+ * @param {*} deleteIds
+ * @returns
+ */
+const deleteContactsRows = async deleteIds => {
+  const response = await axios.delete(CONTACTS_ENDPOINT_URL, {
+    data: { ids: deleteIds },
+  });
+  switch (response.status) {
+    case 200:
+      return response.data;
+    default:
+      throw new Error(
+        `Bad response: 
+        status: ${response.status} 
+        from /contacts DELETE route
+        deleteContactsRows() function`
+      );
+  }
+};
+
+export {
+  getJobsData as getRowData,
+  addJobRow,
+  updateJobRow,
+  deleteJobRows,
+  getContactsData,
+  addContactRow,
+  updateContactRow,
+  deleteContactsRows,
+};

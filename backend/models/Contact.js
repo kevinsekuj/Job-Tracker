@@ -4,18 +4,22 @@ const Contact = sequelize => {
   sequelize.define(
     "Contact",
     {
+      userId: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       firstName: {
         type: DataTypes.STRING,
         validate: {
-          // Allow alphabetical characters and hyphen, up to 50 characters
-          is: /^[a-zA-Z-]{1, 50}$/,
+          isAlpha: true,
+          len: [1, 50]
         },
       },
       lastName: {
         type: DataTypes.STRING,
         validate: {
-          // Allow alphabetical characters and hyphen, up to 50 characters
-          is: /^[a-zA-Z-]{1, 50}$/,
+          isAlpha: true,
+          len: [1, 50]
         },
       },
       email: {
@@ -29,8 +33,20 @@ const Contact = sequelize => {
       phoneNumber: {
         type: DataTypes.STRING,
         validate: {
-          // Supports formatted and unformatted numbers
-          is: /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
+          /*
+          Permitted formats:
+          1234567890
+          123-456-7890
+          (123) 456-7890
+          123 456 7890
+          123.456.7890
+          +91 (123) 456-7890
+          */
+          isInvalidPhoneNumber(number) {
+            if (!/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(number)) {
+              throw new Error("Invalid phone number format.");
+            }
+          }
         },
       },
     },

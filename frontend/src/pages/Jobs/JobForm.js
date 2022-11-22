@@ -25,6 +25,10 @@ export default function JobForm({
   isSubmitting,
   setFieldValue,
 }) {
+  const sortedContacts = [...contacts].sort((a, b) =>
+    a.lastName.localeCompare(b.lastName)
+  );
+
   return (
     <Form>
       <Typography variant="h4" my={2}>
@@ -109,7 +113,7 @@ export default function JobForm({
                 setFieldValue("contactId", event.target.value, true);
               }}
             >
-              {contacts.map(contact => (
+              {sortedContacts.map(contact => (
                 <MenuItem key={contact.id} value={contact.id}>
                   {`${contact.firstName} ${contact.lastName}`}
                 </MenuItem>

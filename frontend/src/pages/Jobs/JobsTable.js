@@ -27,7 +27,7 @@ const Alert = forwardRef((props, ref) => (
 /**
  * The table component for Jobs page: displays jobs as rows.
  */
-export default function JobsTable({ rows, setRows }) {
+export default function JobsTable({ rows, setRows, contacts }) {
   const { user } = useAuth0();
   const [selectedRows, setSelectedRows] = useState([]);
   const [addJobDrawerIsOpen, setAddJobDrawerIsOpen] = useState(false);
@@ -224,9 +224,17 @@ export default function JobsTable({ rows, setRows }) {
       },
     },
     {
-      field: "contacts",
-      headerName: APPLICATION_FIELDS.contacts,
+      field: "contactId",
+      headerName: APPLICATION_FIELDS.contact,
       width: JOB_TABLE_COLUMN_STYLES.CELL_LG,
+      renderCell: cellValues => {
+        const { contactId } = cellValues.row;
+        const contact = contacts.find(ele => ele.id === contactId);
+        if (!contact) {
+          return <Box />;
+        }
+        return <Box>{`${contact.firstName} ${contact.lastName}`}</Box>;
+      },
     },
   ];
 
@@ -246,7 +254,11 @@ export default function JobsTable({ rows, setRows }) {
           onClose={toggleAddDrawerIsOpen(false)}
         >
           <FormBox>
-            <AddJobForm userId={user.sub} handleCreateRow={handleCreateRow} />
+            <AddJobForm
+              userId={user.sub}
+              handleCreateRow={handleCreateRow}
+              contacts={contacts}
+            />
           </FormBox>
         </Drawer>
         <Button
@@ -267,6 +279,7 @@ export default function JobsTable({ rows, setRows }) {
               <EditJobForm
                 handleUpdateRow={handleUpdateRow}
                 selectedRow={selectedRows[0]}
+                contacts={contacts}
               />
             </FormBox>
           )}
@@ -325,9 +338,21 @@ JobsTable.propTypes = {
       id: PropTypes.number,
       position: PropTypes.string,
       status: PropTypes.string,
+      skills: PropTypes.arrayOf(PropTypes.string),
       updatedAt: PropTypes.string,
       userId: PropTypes.string,
+      contactId: PropTypes.number,
     })
   ).isRequired,
   setRows: PropTypes.func.isRequired,
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      userId: PropTypes.string,
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      email: PropTypes.string,
+      phoneNumber: PropTypes.string,
+    })
+  ).isRequired,
 };

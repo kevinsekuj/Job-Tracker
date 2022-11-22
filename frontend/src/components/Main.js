@@ -8,24 +8,29 @@ import Unauthorized from "common/components/Unauthorized";
 import Navbar from "components/Navbar";
 import { ContactsPage, JobsPage, SkillsPage } from "pages/index";
 
-import { getRowData } from "common/service";
+import { getRowData, getContactsData } from "common/service";
 
 import { Box } from "@mui/material";
 
 export default function Main() {
   const { isAuthenticated, isLoading, user } = useAuth0();
   const [rows, setRows] = useState([]);
+  const [contacts, setContacts] = useState([]);
   const skillsMap = useRef(new Map());
 
   useEffect(() => {
     async function fetchInitialTableData() {
-      const data = await getRowData(user?.sub);
-      setRows(data);
+      const jobsData = await getRowData(user?.sub);
+      const contactsData = await getContactsData(user?.sub);
+      setRows(jobsData);
+      setContacts(contactsData);
     }
-    if (isAuthenticated) fetchInitialTableData();
+    if (isAuthenticated) {
+      fetchInitialTableData();
+    }
   }, [isAuthenticated, user?.sub]);
 
-  // Count skill occurrences when rows are updated.
+  // Re-count skill frequencies whenever job rows are updated.
   useEffect(() => {
     skillsMap.current.clear();
     rows.forEach(row => {
@@ -49,9 +54,23 @@ export default function Main() {
                 <Routes>
                   <Route
                     path="/"
-                    element={<JobsPage rows={rows} setRows={setRows} />}
+                    element={
+                      <JobsPage
+                        rows={rows}
+                        setRows={setRows}
+                        contacts={contacts}
+                      />
+                    }
                   />
-                  <Route path="contacts" element={<ContactsPage />} />
+                  <Route
+                    path="contacts"
+                    element={
+                      <ContactsPage
+                        contacts={contacts}
+                        setContacts={setContacts}
+                      />
+                    }
+                  />
                   <Route
                     path="skills"
                     element={

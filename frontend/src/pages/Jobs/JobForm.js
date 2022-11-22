@@ -21,6 +21,7 @@ export default function JobForm({
   formType,
   heading,
   values,
+  contacts,
   isSubmitting,
   setFieldValue,
 }) {
@@ -64,10 +65,12 @@ export default function JobForm({
         </Grid>
         <Grid item>
           <FormControl fullWidth>
-            <InputLabel id={`${`${formType}-select-label`}`}>Status</InputLabel>
+            <InputLabel id={`${`${formType}-select-status-label`}`}>
+              Status
+            </InputLabel>
             <Select
-              labelId={`${`${formType}-select-label`}`}
-              id={`${`${formType}-select`}`}
+              labelId={`${`${formType}-select-status-label`}`}
+              id={`${`${formType}-select-status`}`}
               label="Status"
               value={values.status}
               onChange={event => {
@@ -93,14 +96,26 @@ export default function JobForm({
           />
         </Grid>
         <Grid item>
-          <Field
-            label="Contacts"
-            name="contacts"
-            type="input"
-            fullWidth
-            disabled={isSubmitting}
-            as={TextField}
-          />
+          <FormControl fullWidth>
+            <InputLabel id={`${`${formType}-select-contact-label`}`}>
+              Contact
+            </InputLabel>
+            <Select
+              labelId={`${`${formType}-select-contact-label`}`}
+              id={`${`${formType}-select-contact`}`}
+              label="Contact"
+              value={values.contactId}
+              onChange={event => {
+                setFieldValue("contactId", event.target.value, true);
+              }}
+            >
+              {contacts.map(contact => (
+                <MenuItem key={contact.id} value={contact.id}>
+                  {`${contact.firstName} ${contact.lastName}`}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item>
           <Button fullWidth type="submit" disabled={isSubmitting}>
@@ -121,16 +136,26 @@ JobForm.propTypes = {
 
   values: PropTypes.shape({
     company: PropTypes.string,
-    contacts: PropTypes.string,
+    contactId: PropTypes.number,
     dateApplied: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.instanceOf(Object),
     ]).isRequired,
     position: PropTypes.string,
-    skills: PropTypes.string,
+    skills: PropTypes.arrayOf(PropTypes.string),
     status: PropTypes.string,
   }).isRequired,
 
   isSubmitting: PropTypes.bool.isRequired,
   setFieldValue: PropTypes.func.isRequired,
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      userId: PropTypes.string,
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      email: PropTypes.string,
+      phoneNumber: PropTypes.string,
+    })
+  ).isRequired,
 };

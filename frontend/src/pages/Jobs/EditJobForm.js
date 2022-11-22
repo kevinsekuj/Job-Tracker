@@ -11,7 +11,11 @@ import { Formik } from "formik";
 /**
  * Edits an existing job application.
  */
-export default function EditJobForm({ handleUpdateRow, selectedRow }) {
+export default function EditJobForm({
+  handleUpdateRow,
+  selectedRow,
+  contacts,
+}) {
   const heading = "Edit Job Application";
   const formType = "edit";
   return (
@@ -22,7 +26,7 @@ export default function EditJobForm({ handleUpdateRow, selectedRow }) {
         dateApplied: selectedRow?.dateApplied ?? dayjs(), // Same as date.now().
         status: selectedRow?.status ?? APPLICATION_STATUSES.applied,
         skills: selectedRow?.skills.join(", ") ?? "",
-        contacts: selectedRow?.contacts ?? "",
+        contactId: selectedRow.contactId ?? null,
       }}
       onSubmit={(formData, { setSubmitting, resetForm }) => {
         setSubmitting(true);
@@ -41,6 +45,7 @@ export default function EditJobForm({ handleUpdateRow, selectedRow }) {
           formType={formType}
           heading={heading}
           values={values}
+          contacts={contacts}
           isSubmitting={isSubmitting}
           setFieldValue={setFieldValue}
         />
@@ -56,11 +61,21 @@ EditJobForm.propTypes = {
     createdAt: PropTypes.string,
     dateApplied: PropTypes.string,
     id: PropTypes.number,
-    skills: PropTypes.string,
-    contacts: PropTypes.string,
+    skills: PropTypes.arrayOf(PropTypes.string),
+    contactId: PropTypes.number,
     position: PropTypes.string,
     status: PropTypes.string,
     updatedAt: PropTypes.string,
     userId: PropTypes.string,
   }).isRequired,
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      userId: PropTypes.string,
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      email: PropTypes.string,
+      phoneNumber: PropTypes.string,
+    })
+  ).isRequired,
 };

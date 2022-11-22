@@ -36,7 +36,7 @@ export async function getByJobId(req, res) {
  * @param {Date} req.body.date
  * @param {String} req.body.status
  * @param {Array<String>} req.body.skills
- * @param {String} req.body.contacts
+ * @param {Number} req.body.contactId
  * @return {Object} res {status: Number, data: Object}
  */
 export async function create(req, res) {
@@ -66,7 +66,7 @@ export async function create(req, res) {
  * @param {Date} req.body.dateApplied
  * @param {String} req.body.status
  * @param {String} req.body.skills
- * @param {String} req.body.contacts
+ * @param {Number} req.body.contactId
  * @return {Object} res {status: Number, data: Array<Number, Array<Object>>}
  */
 export async function update(req, res) {

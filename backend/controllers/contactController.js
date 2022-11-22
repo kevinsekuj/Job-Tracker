@@ -49,6 +49,7 @@ export async function getByContactId(req, res) {
   await Contact.create(req.body)
     .then(newRow => res.status(201).json(newRow))
     .catch(err => {
+      console.log(err);
       res
         .status(500)
         .send(err.message || "An error occurred while creating new Contact.");

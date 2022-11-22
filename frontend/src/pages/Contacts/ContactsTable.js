@@ -2,20 +2,21 @@ import { forwardRef, useState } from "react";
 
 import PropTypes from "prop-types";
 
-import AddJobForm from "pages/Jobs/AddJobForm";
-import EditJobForm from "pages/Jobs/EditJobForm";
+import AddContactForm from "pages/Contacts/AddContactForm";
+import EditContactForm from "pages/Contacts/EditContactForm";
 import FormBox from "common/components/FormBox";
 
-import { APPLICATION_FIELDS, JOB_TABLE_COLUMN_STYLES } from "common/constants";
+import { CONTACT_FIELDS, CONTACT_TABLE_COLUMN_STYLES } from "common/constants";
+
 import {
-  addJobRow,
-  deleteJobRows,
-  getRowData,
-  updateJobRow,
+  addContactRow,
+  deleteContactsRows,
+  getContactsData,
+  updateContactRow,
 } from "common/service";
 
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Button, Chip, Drawer, Snackbar } from "@mui/material";
+import { Box, Button, Drawer, Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -25,13 +26,13 @@ const Alert = forwardRef((props, ref) => (
 ));
 
 /**
- * The table component for Jobs page: displays jobs as rows.
+ * The table component for Contacts page: displays contacts as rows.
  */
-export default function JobsTable({ rows, setRows }) {
+export default function ContactsTable({ rows, setRows }) {
   const { user } = useAuth0();
   const [selectedRows, setSelectedRows] = useState([]);
-  const [addJobDrawerIsOpen, setAddJobDrawerIsOpen] = useState(false);
-  const [editJobDrawerState, setEditJobDrawerIsOpen] = useState(false);
+  const [addContactDrawerIsOpen, setAddContactDrawerIsOpen] = useState(false);
+  const [editContactDrawerState, setEditContactDrawerIsOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
@@ -39,12 +40,12 @@ export default function JobsTable({ rows, setRows }) {
   const SNACKBAR = {
     successSeverity: "success",
     errorSeverity: "error",
-    addSuccessMsg: "Added job.",
-    editSuccessMsg: "Updated job.",
+    addSuccessMsg: "Added contact.",
+    editSuccessMsg: "Updated contact.",
     deleteSuccessMsg:
       selectedRows.length > 1
-        ? `Deleted ${selectedRows.length} job(s).`
-        : "Deleted job.",
+        ? `Deleted ${selectedRows.length} contact(s).`
+        : "Deleted contact.",
     errorMsg: "Oops, something went wrong. Please try again later.",
   };
 
@@ -74,7 +75,7 @@ export default function JobsTable({ rows, setRows }) {
     ) {
       return;
     }
-    setAddJobDrawerIsOpen(open);
+    setAddContactDrawerIsOpen(open);
   };
 
   /**
@@ -89,7 +90,7 @@ export default function JobsTable({ rows, setRows }) {
     ) {
       return;
     }
-    setEditJobDrawerIsOpen(open);
+    setEditContactDrawerIsOpen(open);
   };
 
   /**
@@ -98,10 +99,10 @@ export default function JobsTable({ rows, setRows }) {
    */
   const handleCreateRow = async userInputRow => {
     // TODO(dan): Input Validation for Create Row
-    await addJobRow(userInputRow)
+    await addContactRow(userInputRow)
       .then(newRow => {
         setRows(rows.concat(newRow));
-        setAddJobDrawerIsOpen(false);
+        setAddContactDrawerIsOpen(false);
         setSnackbarMessage(SNACKBAR.addSuccessMsg);
         setSnackbarSeverity(SNACKBAR.successSeverity);
         setSnackbarIsOpen(true);
@@ -119,11 +120,11 @@ export default function JobsTable({ rows, setRows }) {
    */
   const handleUpdateRow = async userInputRow => {
     // TODO(dan): Input Validation for Create Row
-    await updateJobRow(userInputRow)
+    await updateContactRow(userInputRow)
       .then(async () => {
-        const data = await getRowData(user?.sub);
+        const data = await getContactsData(user?.sub);
         setRows(data);
-        setEditJobDrawerIsOpen(false);
+        setEditContactDrawerIsOpen(false);
         setSnackbarMessage(SNACKBAR.editSuccessMsg);
         setSnackbarSeverity(SNACKBAR.success);
         setSnackbarIsOpen(true);
@@ -134,7 +135,7 @@ export default function JobsTable({ rows, setRows }) {
         setSnackbarIsOpen(true);
       });
 
-    // await updateJobRow(userInputRow)
+    // await updateContactRow(userInputRow)
     // .then(() => {
     //   const rowsWithEdit = rows.map(row => {
     //     if (row.id === updatedRow.id) {
@@ -150,7 +151,7 @@ export default function JobsTable({ rows, setRows }) {
     //   });
     //   setRows(rowsWithEdit);
     //   setSelectedRows(selectedRowsWithEdit);
-    //   setEditJobDrawerIsOpen(false);
+    //   setEditContactDrawerIsOpen(false);
     //   setSnackbarMessage(SNACKBAR.editSuccessMsg);
     //   setSnackbarSeverity(SNACKBAR.success);
     //   setSnackbarIsOpen(true);
@@ -167,7 +168,7 @@ export default function JobsTable({ rows, setRows }) {
    */
   const handleDeleteRows = async () => {
     const selectedIds = selectedRows.map(row => row.id);
-    await deleteJobRows(selectedIds)
+    await deleteContactsRows(selectedIds)
       .then(({ ids }) => {
         const rowsWithoutDeletes = rows.filter(row => !ids.includes(row.id));
         setRows(rowsWithoutDeletes);
@@ -184,49 +185,26 @@ export default function JobsTable({ rows, setRows }) {
 
   const columns = [
     // Can add this if we want to view id's as well
-    // { field: "id", headerName: APPLICATION_FIELDS.id, width: 90 },
+    // { field: "id", headerName: CONTACT_FIELDS.id, width: 90 },
     {
-      field: "company",
-      headerName: APPLICATION_FIELDS.company,
-      width: JOB_TABLE_COLUMN_STYLES.CELL_SM,
+      field: "firstName",
+      headerName: CONTACT_FIELDS.firstName,
+      width: CONTACT_TABLE_COLUMN_STYLES.CELL_SM,
     },
     {
-      field: "position",
-      headerName: APPLICATION_FIELDS.position,
-      width: JOB_TABLE_COLUMN_STYLES.CELL_MD,
+      field: "lastName",
+      headerName: CONTACT_FIELDS.lastName,
+      width: CONTACT_TABLE_COLUMN_STYLES.CELL_SM,
     },
     {
-      field: "dateApplied",
-      headerName: APPLICATION_FIELDS.date,
-      width: JOB_TABLE_COLUMN_STYLES.CELL_SM,
+      field: "email",
+      headerName: CONTACT_FIELDS.email,
+      width: CONTACT_TABLE_COLUMN_STYLES.CELL_MD,
     },
     {
-      field: "status",
-      headerName: APPLICATION_FIELDS.jobStatus,
-      width: JOB_TABLE_COLUMN_STYLES.CELL_SM,
-    },
-    {
-      field: "skills",
-      headerName: APPLICATION_FIELDS.skills,
-      width: JOB_TABLE_COLUMN_STYLES.CELL_LG,
-      renderCell: cellValues => {
-        const skillsArray = cellValues.row.skills;
-        if (skillsArray?.length === 1 && skillsArray[0] === "") {
-          return null;
-        }
-        return (
-          <Box>
-            {skillsArray?.map(skill => (
-              <Chip key={skill} sx={{ mr: "0.5em" }} label={skill} />
-            ))}
-          </Box>
-        );
-      },
-    },
-    {
-      field: "contacts",
-      headerName: APPLICATION_FIELDS.contacts,
-      width: JOB_TABLE_COLUMN_STYLES.CELL_LG,
+      field: "phoneNumber",
+      headerName: CONTACT_FIELDS.phoneNumber,
+      width: CONTACT_TABLE_COLUMN_STYLES.CELL_SM,
     },
   ];
 
@@ -242,11 +220,14 @@ export default function JobsTable({ rows, setRows }) {
         </Button>
         <Drawer
           anchor="right"
-          open={addJobDrawerIsOpen}
+          open={addContactDrawerIsOpen}
           onClose={toggleAddDrawerIsOpen(false)}
         >
           <FormBox>
-            <AddJobForm userId={user.sub} handleCreateRow={handleCreateRow} />
+            <AddContactForm
+              userId={user.sub}
+              handleCreateRow={handleCreateRow}
+            />
           </FormBox>
         </Drawer>
         <Button
@@ -259,12 +240,12 @@ export default function JobsTable({ rows, setRows }) {
         </Button>
         <Drawer
           anchor="right"
-          open={editJobDrawerState}
+          open={editContactDrawerState}
           onClose={toggleEditDrawerIsOpen(false)}
         >
           {selectedRows.length === 1 && (
             <FormBox>
-              <EditJobForm
+              <EditContactForm
                 handleUpdateRow={handleUpdateRow}
                 selectedRow={selectedRows[0]}
               />
@@ -316,15 +297,15 @@ export default function JobsTable({ rows, setRows }) {
   );
 }
 
-JobsTable.propTypes = {
+ContactsTable.propTypes = {
   rows: PropTypes.arrayOf(
     PropTypes.shape({
-      company: PropTypes.string,
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
       createdAt: PropTypes.string,
-      dateApplied: PropTypes.string,
       id: PropTypes.number,
-      position: PropTypes.string,
-      status: PropTypes.string,
+      phoneNumber: PropTypes.string,
+      email: PropTypes.string,
       updatedAt: PropTypes.string,
       userId: PropTypes.string,
     })

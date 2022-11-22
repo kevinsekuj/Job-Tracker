@@ -5,7 +5,7 @@ export const APPLICATION_FIELDS = {
   date: "Date Applied",
   jobStatus: "Status",
   skills: "Skills",
-  contacts: "Contacts",
+  contact: "Contact",
 };
 
 export const APPLICATION_STATUSES = {

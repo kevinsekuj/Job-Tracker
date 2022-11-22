@@ -10,7 +10,7 @@ import { Formik } from "formik";
 /**
  * Adds a new job application.
  */
-export default function AddJobForm({ userId, handleCreateRow }) {
+export default function AddJobForm({ userId, handleCreateRow, contacts }) {
   const heading = "New Job Application";
   const formType = "add";
   return (
@@ -21,7 +21,7 @@ export default function AddJobForm({ userId, handleCreateRow }) {
         dateApplied: dayjs(), // Same as date.now().
         status: APPLICATION_STATUSES.applied,
         skills: "",
-        contacts: "",
+        contactId: null,
       }}
       onSubmit={(formData, { setSubmitting, resetForm }) => {
         const newRow = {
@@ -41,6 +41,7 @@ export default function AddJobForm({ userId, handleCreateRow }) {
           values={values}
           isSubmitting={isSubmitting}
           setFieldValue={setFieldValue}
+          contacts={contacts}
         />
       )}
     </Formik>
@@ -50,4 +51,14 @@ export default function AddJobForm({ userId, handleCreateRow }) {
 AddJobForm.propTypes = {
   userId: PropTypes.string.isRequired,
   handleCreateRow: PropTypes.func.isRequired,
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      userId: PropTypes.string,
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      email: PropTypes.string,
+      phoneNumber: PropTypes.string,
+    })
+  ).isRequired,
 };

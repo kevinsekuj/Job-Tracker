@@ -2,8 +2,7 @@ import dotenv from "dotenv";
 if (process.env.NODE_ENV !== "production") dotenv.config();
 
 export const PORT = process.env.PORT || 5000;
-export const USER_SKILL = "User_Skill";
-export const JOB_SKILL = "Job_Skill";
+export const CONTACT_FK = "contactId";
 
 export const APPLICATION_STATUSES = [
   "Applied",

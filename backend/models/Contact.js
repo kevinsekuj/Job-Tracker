@@ -25,7 +25,6 @@ const Contact = sequelize => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
         validate: {
           isEmail: true,
         },
@@ -49,6 +48,14 @@ const Contact = sequelize => {
           }
         },
       },
+    },
+    {
+      indexes: [
+        {
+          unique: true,
+          fields: ['userId', 'email']
+        }
+      ]
     },
     {
       underscored: true,

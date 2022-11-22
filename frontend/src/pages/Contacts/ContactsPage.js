@@ -1,25 +1,10 @@
+import PropTypes from "prop-types";
+
 import ContactsTable from "pages/Contacts/ContactsTable";
 
 import { Typography } from "@mui/material";
 
-import { useEffect, useState } from "react";
-
-import { useAuth0 } from "@auth0/auth0-react";
-
-import { getContactsData } from "common/service";
-
-export default function ContactsPage() {
-  const { user } = useAuth0();
-  const [rows, setRows] = useState([]);
-
-  useEffect(() => {
-    async function fetchInitialTableData() {
-      const data = await getContactsData(user?.sub);
-      setRows(data);
-    }
-    fetchInitialTableData();
-  }, [user?.sub]);
-
+export default function ContactsPage({ contacts: rows, setContacts: setRows }) {
   return (
     <>
       <Typography variant="h1" align="center" my={2}>
@@ -29,3 +14,17 @@ export default function ContactsPage() {
     </>
   );
 }
+
+ContactsPage.propTypes = {
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      userId: PropTypes.string,
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      email: PropTypes.string,
+      phoneNumber: PropTypes.string,
+    })
+  ).isRequired,
+  setContacts: PropTypes.func.isRequired,
+};

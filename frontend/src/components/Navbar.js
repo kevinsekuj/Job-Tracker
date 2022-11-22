@@ -101,7 +101,7 @@ export default function Navbar() {
               >
                 <Avatar
                   sx={{ marginRight: "1%" }}
-                  alt="Profile Picture"
+                  alt={user?.name || ""}
                   src={user?.picture || ""}
                 />
                 <Typography

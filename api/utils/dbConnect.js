@@ -1,9 +1,10 @@
 import dotenv from "dotenv";
 if (process.env.NODE_ENV !== "production") dotenv.config();
 
+import pg from "pg";
 import { Sequelize } from "sequelize";
-import defineModels from "./defineModels.js";
 import addAssociations from "./addAssociations.js";
+import defineModels from "./defineModels.js";
 
 async function connectToDb() {
   const dialect = process.env.DB_DIALECT;
@@ -15,7 +16,10 @@ async function connectToDb() {
 
   // Connect to database.
   const sequelize = new Sequelize(
-    `${dialect}://${username}:${password}@${host}:${port}/${database}`
+    `${dialect}://${username}:${password}@${host}:${port}/${database}`,
+    {
+      dialectModule: pg,
+    }
   );
 
   return sequelize;

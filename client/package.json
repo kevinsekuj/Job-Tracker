@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -35,7 +35,7 @@
     "lint": "eslint 'src/**/*.js*'",
     "prettier": "prettier --write 'src/**/*.js*'",
     "check-all": "npm run prettier && npm run lint",
-    "prepare": "cd .. && husky install frontend/.husky"
+    "prepare": "cd .. && husky install client/.husky"
   },
   "proxy": "http://localhost:5000",
   "eslintConfig": {

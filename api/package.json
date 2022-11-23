@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon --delay 900ms index.js",
-    "build" : "cd ../frontend && npm install && npm run build"
+    "build" : "cd ../client && npm install && npm run build",
+    "build-ssr" : "cd ../client && npm install && npm run build-ssr"
   },
   "engines": {
     "node": "16.18.0"

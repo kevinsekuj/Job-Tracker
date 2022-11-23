@@ -28,7 +28,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && rm -rf ../backend/views/build && mv build ../backend/views",
+    "build": "react-scripts build",
+    "build-ssr": "react-scripts build && rm -rf ../api/views/build && mv build ../api/views",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint 'src/**/*.js*'",
@@ -36,7 +37,7 @@
     "check-all": "npm run prettier && npm run lint",
     "prepare": "cd .. && husky install frontend/.husky"
   },
-  "proxy": "http://localhost:3001",
+  "proxy": "http://localhost:5000",
   "eslintConfig": {
     "extends": [
       "react-app",

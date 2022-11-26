@@ -39,15 +39,9 @@ try {
   process.exit(1);
 }
 
-import companies from "./routes/companies.js";
 import contacts from "./routes/contacts.js";
 import jobs from "./routes/jobs.js";
-import skills from "./routes/skills.js";
-import users from "./routes/users.js";
 
-app.use("/api/users", users);
-app.use("/api/companies", companies);
-app.use("/api/skills", skills);
 app.use("/api/contacts", contacts);
 app.use("/api/jobs", jobs);
 

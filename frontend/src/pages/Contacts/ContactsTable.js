@@ -291,7 +291,10 @@ export default function ContactsTable({ rows, setRows }) {
             setSelectedRows(userSelectedRows);
           }}
         />
-        <pre>{JSON.stringify(selectedRows, null, 2)}</pre>
+        {/* Debugging purposes only. */}
+        {process.env.NODE_ENV !== "production" && (
+          <pre>{JSON.stringify(selectedRows, null, 2)}</pre>
+        )}
       </Box>
     </>
   );

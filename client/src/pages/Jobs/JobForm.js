@@ -1,5 +1,7 @@
 import PropTypes from "prop-types";
 
+import { Link as RouterLink } from "react-router-dom";
+
 import { APPLICATION_STATUSES } from "common/constants";
 
 import {
@@ -100,26 +102,36 @@ export default function JobForm({
           />
         </Grid>
         <Grid item>
-          <FormControl fullWidth>
-            <InputLabel id={`${`${formType}-select-contact-label`}`}>
-              Contact
-            </InputLabel>
-            <Select
-              labelId={`${`${formType}-select-contact-label`}`}
-              id={`${`${formType}-select-contact`}`}
-              label="Contact"
-              value={values.contactId}
-              onChange={event => {
-                setFieldValue("contactId", event.target.value, true);
-              }}
-            >
-              {sortedContacts.map(contact => (
-                <MenuItem key={contact.id} value={contact.id}>
-                  {`${contact.firstName} ${contact.lastName}`}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          {sortedContacts.length > 0 ? (
+            <FormControl fullWidth>
+              <InputLabel id={`${`${formType}-select-contact-label`}`}>
+                Contact
+              </InputLabel>
+              <Select
+                labelId={`${`${formType}-select-contact-label`}`}
+                id={`${`${formType}-select-contact`}`}
+                label="Contact"
+                value={values.contactId}
+                disabled={sortedContacts.length === 0}
+                onChange={event => {
+                  setFieldValue("contactId", event.target.value, true);
+                }}
+              >
+                {sortedContacts.map(contact => (
+                  <MenuItem key={contact.id} value={contact.id}>
+                    {`${contact.firstName} ${contact.lastName}`}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          ) : (
+            <Typography variant="body2">
+              <RouterLink id="contact-link" to="/contacts">
+                Create a contact
+              </RouterLink>{" "}
+              to associate them with this job.
+            </Typography>
+          )}
         </Grid>
         <Grid item>
           <Button fullWidth type="submit" disabled={isSubmitting}>
@@ -128,8 +140,10 @@ export default function JobForm({
         </Grid>
       </Grid>
 
-      {/* TODO: Delete this later, debugging purposes only. */}
-      <pre>{JSON.stringify(values, null, 2)}</pre>
+      {/* Debugging purposes only. */}
+      {process.env.NODE_ENV !== "production" && (
+        <pre>{JSON.stringify(values, null, 2)}</pre>
+      )}
     </Form>
   );
 }

@@ -7,12 +7,7 @@ import EditJobForm from "pages/Jobs/EditJobForm";
 import FormBox from "common/components/FormBox";
 
 import { APPLICATION_FIELDS, JOB_TABLE_COLUMN_STYLES } from "common/constants";
-import {
-  addJobRow,
-  deleteJobRows,
-  getRowData,
-  updateJobRow,
-} from "common/service";
+import { addJobRow, deleteJobRows, updateJobRow } from "common/service";
 
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Button, Chip, Drawer, Snackbar } from "@mui/material";
@@ -118,11 +113,22 @@ export default function JobsTable({ rows, setRows, contacts }) {
    * @param {*} newRow
    */
   const handleUpdateRow = async userInputRow => {
-    // TODO(dan): Input Validation for Create Row
     await updateJobRow(userInputRow)
-      .then(async () => {
-        const data = await getRowData(user?.sub);
-        setRows(data);
+      .then(updatedRow => {
+        const rowsWithEdit = rows.map(row => {
+          if (row.id === updatedRow.id) {
+            return updatedRow;
+          }
+          return row;
+        });
+        const selectedRowsWithEdit = selectedRows.map(row => {
+          if (row.id === updatedRow.id) {
+            return updatedRow;
+          }
+          return row;
+        });
+        setRows(rowsWithEdit);
+        setSelectedRows(selectedRowsWithEdit);
         setEditJobDrawerIsOpen(false);
         setSnackbarMessage(SNACKBAR.editSuccessMsg);
         setSnackbarSeverity(SNACKBAR.success);
@@ -133,33 +139,6 @@ export default function JobsTable({ rows, setRows, contacts }) {
         setSnackbarSeverity(SNACKBAR.errorSeverity);
         setSnackbarIsOpen(true);
       });
-
-    // await updateJobRow(userInputRow)
-    // .then(() => {
-    //   const rowsWithEdit = rows.map(row => {
-    //     if (row.id === updatedRow.id) {
-    //       return updatedRow;
-    //     }
-    //     return row;
-    //   });
-    //   const selectedRowsWithEdit = selectedRows.map(row => {
-    //     if (row.id === updatedRow.id) {
-    //       return updatedRow;
-    //     }
-    //     return row;
-    //   });
-    //   setRows(rowsWithEdit);
-    //   setSelectedRows(selectedRowsWithEdit);
-    //   setEditJobDrawerIsOpen(false);
-    //   setSnackbarMessage(SNACKBAR.editSuccessMsg);
-    //   setSnackbarSeverity(SNACKBAR.success);
-    //   setSnackbarIsOpen(true);
-    // })
-    // .catch(err => {
-    //   setSnackbarMessage(SNACKBAR.errorMsg);
-    //   setSnackbarSeverity(SNACKBAR.errorSeverity);
-    //   setSnackbarIsOpen(true);
-    // });
   };
 
   /**
@@ -323,7 +302,10 @@ export default function JobsTable({ rows, setRows, contacts }) {
             setSelectedRows(userSelectedRows);
           }}
         />
-        <pre>{JSON.stringify(selectedRows, null, 2)}</pre>
+        {/* Debugging purposes only. */}
+        {process.env.NODE_ENV !== "production" && (
+          <pre>{JSON.stringify(selectedRows, null, 2)}</pre>
+        )}
       </Box>
     </>
   );

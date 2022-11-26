@@ -20,3 +20,8 @@ body,
   text-decoration: none;
   color: inherit;
 }
+
+#contact-link {
+  text-decoration: none;
+  color: rgb(25, 118, 210);
+}

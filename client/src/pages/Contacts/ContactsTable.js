@@ -11,7 +11,6 @@ import { CONTACT_FIELDS, CONTACT_TABLE_COLUMN_STYLES } from "common/constants";
 import {
   addContactRow,
   deleteContactsRows,
-  getContactsData,
   updateContactRow,
 } from "common/service";
 
@@ -119,11 +118,22 @@ export default function ContactsTable({ rows, setRows }) {
    * @param {*} newRow
    */
   const handleUpdateRow = async userInputRow => {
-    // TODO(dan): Input Validation for Create Row
     await updateContactRow(userInputRow)
-      .then(async () => {
-        const data = await getContactsData(user?.sub);
-        setRows(data);
+      .then(updatedRow => {
+        const rowsWithEdit = rows.map(row => {
+          if (row.id === updatedRow.id) {
+            return updatedRow;
+          }
+          return row;
+        });
+        const selectedRowsWithEdit = selectedRows.map(row => {
+          if (row.id === updatedRow.id) {
+            return updatedRow;
+          }
+          return row;
+        });
+        setRows(rowsWithEdit);
+        setSelectedRows(selectedRowsWithEdit);
         setEditContactDrawerIsOpen(false);
         setSnackbarMessage(SNACKBAR.editSuccessMsg);
         setSnackbarSeverity(SNACKBAR.success);
@@ -134,33 +144,6 @@ export default function ContactsTable({ rows, setRows }) {
         setSnackbarSeverity(SNACKBAR.errorSeverity);
         setSnackbarIsOpen(true);
       });
-
-    // await updateContactRow(userInputRow)
-    // .then(() => {
-    //   const rowsWithEdit = rows.map(row => {
-    //     if (row.id === updatedRow.id) {
-    //       return updatedRow;
-    //     }
-    //     return row;
-    //   });
-    //   const selectedRowsWithEdit = selectedRows.map(row => {
-    //     if (row.id === updatedRow.id) {
-    //       return updatedRow;
-    //     }
-    //     return row;
-    //   });
-    //   setRows(rowsWithEdit);
-    //   setSelectedRows(selectedRowsWithEdit);
-    //   setEditContactDrawerIsOpen(false);
-    //   setSnackbarMessage(SNACKBAR.editSuccessMsg);
-    //   setSnackbarSeverity(SNACKBAR.success);
-    //   setSnackbarIsOpen(true);
-    // })
-    // .catch(err => {
-    //   setSnackbarMessage(SNACKBAR.errorMsg);
-    //   setSnackbarSeverity(SNACKBAR.errorSeverity);
-    //   setSnackbarIsOpen(true);
-    // });
   };
 
   /**
@@ -291,7 +274,10 @@ export default function ContactsTable({ rows, setRows }) {
             setSelectedRows(userSelectedRows);
           }}
         />
-        <pre>{JSON.stringify(selectedRows, null, 2)}</pre>
+        {/* Debugging purposes only. */}
+        {process.env.NODE_ENV !== "production" && (
+          <pre>{JSON.stringify(selectedRows, null, 2)}</pre>
+        )}
       </Box>
     </>
   );

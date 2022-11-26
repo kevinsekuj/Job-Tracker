@@ -1,4 +1,3 @@
-import { DataTypes } from "sequelize";
 import { APPLICATION_STATUSES } from "../utils/constants.js";
 
 const Job = sequelize => {
@@ -22,7 +21,7 @@ const Job = sequelize => {
         },
       },
       dateApplied: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         validate: {
           isDate: true,
           isOnOrBeforeCurrentDate(date) {

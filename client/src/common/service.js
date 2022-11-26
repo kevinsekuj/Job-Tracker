@@ -67,9 +67,19 @@ const updateJobRow = async updatedRow => {
     `${JOBS_ENDPOINT_URL}/${updatedRow.id}`,
     updatedRow
   );
+  let modifiedRow;
+  let date;
   switch (response.status) {
     case 200:
-      return response.data;
+      // First array element is number of affected rows,
+      // second element is an array of all affected rows.
+      // If we want to support multi-edits, change this to response.data[1].
+      [, [modifiedRow]] = response.data;
+      date = modifiedRow.dateApplied;
+      if (date && typeof date === "string") {
+        modifiedRow.dateApplied = formatDate(date);
+      }
+      return modifiedRow;
     default:
       throw new Error(
         `Bad response: 
@@ -147,7 +157,10 @@ const updateContactRow = async updatedRow => {
   );
   switch (response.status) {
     case 200:
-      return response.data;
+      // First array element is number of affected rows,
+      // second element is an array of all affected rows.
+      // If we want to support multi-edits, change this to response.data[1].
+      return response.data[1][0];
     default:
       throw new Error(
         `Bad response: 

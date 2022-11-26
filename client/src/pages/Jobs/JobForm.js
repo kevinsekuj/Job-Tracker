@@ -122,6 +122,7 @@ export default function JobForm({
                     {`${contact.firstName} ${contact.lastName}`}
                   </MenuItem>
                 ))}
+                <MenuItem value={null}>No Contact</MenuItem>
               </Select>
             </FormControl>
           ) : (

@@ -128,8 +128,10 @@ export default function JobForm({
         </Grid>
       </Grid>
 
-      {/* TODO: Delete this later, debugging purposes only. */}
-      <pre>{JSON.stringify(values, null, 2)}</pre>
+      {/* Debugging purposes only. */}
+      {process.env.NODE_ENV !== "production" && (
+        <pre>{JSON.stringify(values, null, 2)}</pre>
+      )}
     </Form>
   );
 }

@@ -22,7 +22,7 @@ const Job = sequelize => {
         },
       },
       dateApplied: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         validate: {
           isDate: true,
           isOnOrBeforeCurrentDate(date) {

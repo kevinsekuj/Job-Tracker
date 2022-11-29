@@ -93,6 +93,18 @@ https://job-tracker-delta.vercel.app/
       `$ npm start`
 2. Access the React app views in your web browser by visiting `http://localhost:3000/`
     - **Note**: Change port as needed if modified during [installation](#installation).
+    
+    
+## Usage
+
+1. Click the “Sign In” button in the top right corner. You will be prompted to sign in using a Google account.
+2. You will be taken to the Jobs page. If `NODE_ENV` is not set to “production” and this is your first time using the app since starting the server, the table will be empty.
+3. Create a new job by clicking the blue “New” button. Enter the job details in the pop out menu on the right. Then click “Submit”.
+4. If the required fields are present and valid, the new row will be inserted into the table. You can continue adding more jobs, editing them, and deleting them in bulk using the appropriate checkboxes and buttons.
+5. Create a new contact by clicking “Contacts” in the navigation bar and filling out a similar form. First name, last name, and email are required fields while phone number is optional. However, if a phone number is provided, it must be in a valid format.
+6. Associate a contact with a job by revisiting the “Jobs” page and either creating a new job or editing an existing one. If at least one contact has been created, a dropdown field will be displayed in the Job form.
+7. After adding a few jobs, navigate to the “Skills” page to see a visual breakdown of the recorded skill frequencies as well as your top 5 most frequently noted skills.
+8. **Bonus**: Toggle between light and dark mode by clicking the sun/moon icon in the upper right corner.
 
 
 ## Reporting Issues

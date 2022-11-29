@@ -34,6 +34,8 @@ export default function EditJobForm({
           id: selectedRow.id,
           ...formData,
         };
+        newRow.company = newRow.company.trim();
+        newRow.position = newRow.position.trim();
         newRow.skills = processSkills(newRow.skills);
         handleUpdateRow(newRow);
         setSubmitting(false);

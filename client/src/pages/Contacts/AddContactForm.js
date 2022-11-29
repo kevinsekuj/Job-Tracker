@@ -19,7 +19,10 @@ export default function AddContactForm({ userId, handleCreateRow }) {
       onSubmit={(formData, { setSubmitting, resetForm }) => {
         const newRow = {
           userId: userId,
-          ...formData,
+          firstName: formData.firstName.trim(),
+          lastName: formData.lastName.trim(),
+          email: formData.email.trim(),
+          phoneNumber: formData.phoneNumber.trim(),
         };
         handleCreateRow(newRow);
         setSubmitting(false);

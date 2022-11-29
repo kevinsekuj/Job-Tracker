@@ -21,7 +21,10 @@ export default function EditContactForm({ handleUpdateRow, selectedRow }) {
         setSubmitting(true);
         const newRow = {
           id: selectedRow.id,
-          ...formData,
+          firstName: formData.firstName.trim(),
+          lastName: formData.lastName.trim(),
+          email: formData.email.trim(),
+          phoneNumber: formData.phoneNumber.trim(),
         };
         handleUpdateRow(newRow);
         setSubmitting(false);

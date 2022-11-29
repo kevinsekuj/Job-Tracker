@@ -28,6 +28,8 @@ export default function AddJobForm({ userId, handleCreateRow, contacts }) {
           userId: userId,
           ...formData,
         };
+        newRow.company = newRow.company.trim();
+        newRow.position = newRow.position.trim();
         newRow.skills = processSkills(newRow.skills);
         handleCreateRow(newRow);
         setSubmitting(false);

@@ -13,10 +13,13 @@ export function formatDate(dateString) {
 
 export function processSkills(skillsString) {
   // Split on comma and remove leading/trailing whitespace.
-  const skillsArray = skillsString.split(",");
-  skillsArray.forEach((skill, index) => {
-    skillsArray[index] = skill.trim();
-  });
+  const skillsArray = skillsString.split(",").reduce((res, ele) => {
+    const processedSkill = ele.trim();
+    if (processedSkill) {
+      res.push(processedSkill);
+    }
+    return res;
+  }, []);
 
   // Use hashset to remove duplicate entries
   return Array.from(new Set(skillsArray));

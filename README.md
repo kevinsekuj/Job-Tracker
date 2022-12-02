@@ -65,7 +65,7 @@ https://job-tracker-delta.vercel.app/
         DB_DIALECT="postgres"
         NODE_ENV="production"
         ```
-      - **Note**: By default, the server will run on port **3000**. Change this as needed based on the callback URLs you provided to Auth0.
+      - **Note**: By default, the server will run on port **3000**. Change this as needed based on the callback URLs you provided to Auth0 by specifying a `PORT` variable.
 4. Set up, configure, and build React app
     - From root directory:  
     `$ cd frontend/`
